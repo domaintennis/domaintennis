@@ -1,0 +1,192 @@
+/*******************************************************************************
+ * _layout.scss
+ *
+ * Styling of the "simple" layout demonstrating the Compass grid extension Susy
+ * and building mobile first layouts.
+ ******************************************************************************/
+@import "../../partials/utility";
+
+///////////////////////////////////////////////////////////
+//// Variables in partials/utitity/variables/_grid.scss
+///////////////////////////////////////////////////////////
+
+//
+// $vert-spacing-unit: 18px;
+// $horz-spacing-unit: 1em;
+// 
+// $tab: 44em;
+// $desk: 70em;
+// 
+// $grids: 4;
+ $grids: add-grid(12 at $tab);
+ $grids: add-grid(18 at $desk);
+// 
+// $gutters: 1/3;
+
+$debug-grid:true;
+
+body {
+  //background: transparent image-url('diagonal.png') left top repeat;
+}
+
+.l-constrained {
+  width: 95%;
+  margin: 0 auto;
+  //@include pie-clearfix;
+}
+
+.l-container {
+	max-width: $max-width;
+	margin: 0 auto;
+
+	
+
+	@include clearfix;
+	@include breakpoint($tab,true) {
+
+
+		//Spacing
+		@include apply-side-rhythm-border(left, 0px, 1, 16px);
+		@include apply-side-rhythm-border(right, 0px, 1, 16px);
+	}
+	
+}
+
+.l-container.l-container-overwidth {
+	max-width:1600px;
+	padding:0;
+}
+.l-container.l-container-fullwidth {
+	max-width:100%;
+	padding:0;
+}
+
+.wrapper {
+}
+
+///////////////////////////////////////////////////////////
+//
+// HEADER
+//
+///////////////////////////////////////////////////////////
+
+.l-header-wrap {
+	@include clearfix;
+	position:relative;
+}
+
+.l-header {
+	//Within .l-header-right
+}
+
+///////////////////////////////////////////////////////////
+//// BRANDING
+///////////////////////////////////////////////////////////
+
+
+.l-branding {
+
+	text-align:center;
+}
+
+///////////////////////////////////////////////////////////
+//// BANNER
+///////////////////////////////////////////////////////////
+
+
+
+.l-banner {
+	// background:rgba(red,0.5);
+
+	.l-container {
+		padding:0;
+	}
+
+	@include grid-span(4,1);
+	@include breakpoint($tab,true) {
+		@include grid-span(12,1);
+	}
+	@include breakpoint($desk,true) {
+		@include grid-span(18,1);
+	}
+}
+
+
+
+///////////////////////////////////////////////////////////
+//// CONTENT
+///////////////////////////////////////////////////////////
+
+.l-content-wrap {
+	// background:rgba(lime,0.2);
+	@include grid-span(4,1);
+	@include breakpoint($tab,true) {
+		@include grid-span(5,1);
+	}
+	@include breakpoint($desk,true) {
+		@include grid-span(6,1);
+	}
+
+}
+
+
+.l-sidebar-first {
+
+	
+
+	.l-region {
+		// background:rgba(blue,0.5);
+		@include clearfix;
+	}
+
+	@include grid-span(4,1);
+	@include breakpoint($tab,true) {
+		@include grid-span(7,6);
+	}
+	@include breakpoint($desk,true) {
+		@include grid-span(12,7);
+	}
+}
+
+
+///////////////////////////////////////////////////////////
+//
+// TITLEBOX
+//
+///////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////
+//
+// FOOTER
+//
+///////////////////////////////////////////////////////////
+
+.l-footer {
+	@include clearfix;
+}
+
+.l-footer-first {
+
+
+	@include grid-span(4,1);
+
+	@include breakpoint($tab,true) {
+		@include grid-span(12,1);
+	}
+	@include breakpoint($desk,true) {
+		@include grid-span(4,1,10);
+	}
+}
+
+.l-footer-second {
+
+	@include grid-span(4,1);
+	@include breakpoint($tab,true) {
+		@include grid-span(12,1);
+	}
+	@include breakpoint($desk,true) {
+		@include grid-span(6,5,10);
+	}
+}

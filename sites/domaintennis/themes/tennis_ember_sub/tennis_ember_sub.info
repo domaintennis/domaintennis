@@ -1,0 +1,8 @@
+name = Tennis Ember Subtheme
+base theme = ember
+core = 7.x
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[screen][] = custom.css

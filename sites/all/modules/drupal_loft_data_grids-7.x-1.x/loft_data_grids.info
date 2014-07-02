@@ -1,0 +1,8 @@
+name = "Loft Data Grids"
+description = "Integrates Loft Data Grids with Drupal"
+version = 7.x-1.3-rc1
+author = Aaron Klump <sourcecode@intheloftstudios.com>
+package = Custom
+core = 7.x
+
+dependencies[] = libraries

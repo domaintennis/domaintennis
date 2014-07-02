@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Frontpage Content Type feature.
+ */
+
+include_once 'frontpage_content_type.features.inc';

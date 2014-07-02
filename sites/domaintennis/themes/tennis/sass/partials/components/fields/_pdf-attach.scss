@@ -1,0 +1,30 @@
+/*
+*	PDF Attach
+*	Styling for PDF Download button in header
+*
+*	Field item: 	.field-pdf-attach
+*	Block Class:	.block--ds-extras-page-title-box-right
+*	
+*/
+
+
+.field-pdf-attach {
+	
+	
+	a {
+		color:#333333 !important;
+		
+		@extend .button;
+		@extend .button-block;
+		@extend .button-light-grey;
+		
+		border:1px solid #cccccc;
+				
+	}
+	
+	.file-size, .file-icon {
+	
+		//Hide filesize & file icon
+		display: none;
+	}
+}

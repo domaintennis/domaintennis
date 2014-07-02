@@ -1,0 +1,198 @@
+/*
+*	SF White
+*	Clone of the superfish white style. Overridden with variables. 
+*
+*	Class 	.sf-style-white
+*/			
+
+$link-border: 		 1px solid transparent;
+$link-text:  		   #ffffff;
+$link-text-hover:  #ffffff;
+$link-bg: 			   $green;
+$link-bg-hover: 	 $green-dark;
+$menu-margin-bottom: 0;
+
+$expanded-bg : lighten($green,10%);
+
+//Menu (UL) background.
+$menu-bg : $green;
+
+//Accordion Toggle Button
+$accordion-toggle-text: 		    #333333;
+$accordion-toggle-bd: 	$green;
+$accordion-toggle-border: 		  1px solid transparent;
+
+//Megamenu
+$megamenu-wrapper-bg:	transparent;
+
+
+nav {
+  @include clearfix;
+}
+
+#superfish-1 {
+  display:block;
+  float:none;
+  @include clearfix;
+}
+
+.sf-menu.sf-style-white {
+  background:$menu-bg;
+}
+
+.sf-menu.sf-style-white li li.sf-megamenu-wrapper, .sf-menu.sf-style-white li li.sf-megamenu-wrapper:hover {
+	background:$megamenu-wrapper-bg;
+}
+
+.sf-menu.sf-horizontal.sf-shadow ul, 
+.sf-menu.sf-vertical.sf-shadow ul, 
+.sf-menu.sf-navbar.sf-shadow ul ul {
+	background: $green;
+}
+
+.sf-menu.sf-style-white {
+  float: left;
+  margin-bottom: $menu-margin-bottom;
+  padding: 0;
+}
+.sf-menu.sf-style-white.sf-navbar {
+  width: 100%;
+}
+.sf-menu.sf-style-white ul {
+  padding-left: 0;
+}
+.sf-menu.sf-style-white a {
+  @include unstyled-link;
+
+  border: $link-border;
+  color: $link-text;
+  padding: 0.75em 1em;
+}
+.sf-menu.sf-style-white a.sf-with-ul {
+  padding-right: 2.25em;
+}
+.sf-menu.sf-style-white.rtl a.sf-with-ul {
+  padding-left: 2.25em;
+  padding-right: 1em;
+}
+.sf-menu.sf-style-white.sf-navbar a {
+  border: 0;
+}
+.sf-menu.sf-style-white span.sf-description {
+  color: red;
+  display: block;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  margin: 5px 0 0 5px;
+  padding: 0;
+}
+.sf-menu.sf-style-white li,
+.sf-menu.sf-style-white.sf-navbar {
+  background: $link-bg;
+}
+.sf-menu.sf-style-white li li {
+  background: darken($link-bg,3%);
+}
+.sf-menu.sf-style-white li li li {
+  background:  darken($link-bg,4%);
+}
+.sf-menu.sf-style-white li:hover,
+.sf-menu.sf-style-white li.sfHover,
+.sf-menu.sf-style-white li.active a,
+.sf-menu.sf-style-white a:focus,
+.sf-menu.sf-style-white a:hover,
+.sf-menu.sf-style-white a:active,
+.sf-menu.sf-style-white.sf-navbar li li {
+  background: $link-bg-hover;
+}
+.sf-menu.sf-style-white.sf-navbar li ul {
+  background-color: #e9e9e9;
+}
+.sf-menu.sf-style-white.sf-navbar li ul li ul {
+  background-color: transparent;
+}
+.sf-menu.sf-style-white .sf-sub-indicator {
+  background-image: url('../images/arrows-777777.png');
+}
+.sf-menu.sf-style-white.rtl .sf-sub-indicator {
+  background-image: url('../images/arrows-777777-rtl.png');
+}
+div.sf-accordion-toggle.sf-style-white a {
+  background: $accordion-toggle-bd;
+  border: $accordion-toggle-border;
+  color: $accordion-toggle-text;
+  padding: 1em;
+}
+div.sf-accordion-toggle.sf-style-white a.sf-expanded,
+.sf-menu.sf-style-white.sf-accordion li.sf-expanded {
+  background-color: $expanded-bg;
+}
+div.sf-accordion-toggle.sf-style-white a.sf-expanded,
+.sf-menu.sf-style-white.sf-accordion li.sf-expanded > a {
+  font-weight: bold;
+}
+.sf-menu.sf-style-white.sf-accordion li a.sf-accordion-button {
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 499;
+}
+.sf-menu.sf-style-white.sf-accordion li li a {
+  padding-left: 2em;
+}
+.sf-menu.sf-style-white.sf-accordion li li li a {
+  padding-left: 3em;
+}
+.sf-menu.sf-style-white.sf-accordion li li li li a {
+  padding-left: 4em;
+}
+.sf-menu.sf-style-white.sf-accordion li li li li li a {
+  padding-left: 5em;
+}
+.sf-menu.sf-style-white ul.sf-megamenu li.sf-megamenu-wrapper ol,
+.sf-menu.sf-style-white ul.sf-megamenu li.sf-megamenu-wrapper ol li {
+  margin: 0;
+  padding: 0;
+}
+.sf-menu.sf-style-white ul.sf-megamenu li.sf-megamenu-wrapper a.menuparent {
+  font-weight: bold;
+}
+.sf-menu.sf-style-white ul.sf-megamenu li.sf-megamenu-wrapper ol li.sf-megamenu-column {
+  display: inline;
+  float: left;
+  width: 12em;
+}
+.sf-menu.sf-style-white.rtl ul.sf-megamenu li.sf-megamenu-wrapper ol li.sf-megamenu-column {
+  float: right;
+}
+.sf-menu.sf-style-white li.sf-parent-children-1 ul.sf-megamenu {
+  width: 12.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-2 ul.sf-megamenu {
+  width: 24.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-3 ul.sf-megamenu {
+  width: 36.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-4 ul.sf-megamenu {
+  width: 48.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-5 ul.sf-megamenu {
+  width: 60.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-6 ul.sf-megamenu {
+  width: 72.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-7 ul.sf-megamenu {
+  width: 84.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-8 ul.sf-megamenu {
+  width: 96.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-9 ul.sf-megamenu {
+  width: 108.5em;
+}
+.sf-menu.sf-style-white li.sf-parent-children-10 ul.sf-megamenu {
+  width: 120.5em;
+}

@@ -1,0 +1,466 @@
+/*******************************************************************************
+ * _layout.scss
+ *
+ * Styling of the "simple" layout demonstrating the Compass grid extension Susy
+ * and building mobile first layouts.
+ ******************************************************************************/
+/**
+ * $ISLAND
+ */
+/**
+ * $ARROW
+ */
+/**
+ * $HLIST
+ */
+.l-constrained {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.l-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left-style: border-style;
+  border-left-width: 0em;
+  padding-left: 0.6875em;
+  border-right-style: border-style;
+  border-right-width: 0em;
+  padding-right: 0.6875em;
+}
+.l-container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media (min-width: 44em) {
+  .l-container {
+    border-left-style: border-style;
+    border-left-width: 0em;
+    padding-left: 0.6875em;
+    border-right-style: border-style;
+    border-right-width: 0em;
+    padding-right: 0.6875em;
+  }
+}
+
+.l-container.l-container-overwidth {
+  max-width: 1600px;
+  padding: 0;
+}
+
+.l-container.l-container-fullwidth {
+  max-width: 100%;
+  padding: 0;
+}
+
+.l-header {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 40.42553%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 26.76056%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-header {
+    width: 40.42553%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-header {
+    width: 26.76056%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-branding {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 57.44681%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+  width: 71.83099%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-branding {
+    width: 57.44681%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-branding {
+    width: 71.83099%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-banner {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+.l-banner .l-container {
+  padding: 0;
+}
+@media (min-width: 44em) {
+  .l-banner {
+    width: 100%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-banner {
+    width: 100%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-nav {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-nav {
+    width: 100%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-nav {
+    width: 100%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-content {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 65.95745%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+  width: 66.19718%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-content {
+    width: 65.95745%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-content {
+    width: 66.19718%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-sidebar-first {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 31.91489%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 32.39437%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-sidebar-first {
+    width: 31.91489%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-sidebar-first {
+    width: 32.39437%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-suffix-first {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 31.91489%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+  width: 32.39437%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-suffix-first {
+    width: 31.91489%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-suffix-first {
+    width: 32.39437%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-suffix-second {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 31.91489%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 34.04255%;
+  clear: none;
+  width: 32.39437%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 33.80282%;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-suffix-second {
+    width: 31.91489%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 34.04255%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-suffix-second {
+    width: 32.39437%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 33.80282%;
+    clear: none;
+  }
+}
+
+.l-suffix-third {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 31.91489%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 32.39437%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-suffix-third {
+    width: 31.91489%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-suffix-third {
+    width: 32.39437%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-footer:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.l-footer-first {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 57.44681%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+  width: 66.19718%;
+  float: left;
+  margin-right: -100%;
+  margin-left: 0%;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-footer-first {
+    width: 57.44681%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-footer-first {
+    width: 66.19718%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-footer-second {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 40.42553%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+  width: 32.39437%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-footer-second {
+    width: 40.42553%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-footer-second {
+    width: 32.39437%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}

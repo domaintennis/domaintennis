@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Handles installation steps for loft_data_grids
+ *
+ * @ingroup func_search
+ * @{
+ */
+
+/**
+ * Implements hook_requirements().
+ *
+ * Checks installation requirements and do status reporting.
+ * http://api.drupal.org/api/function/hook_requirements
+ *
+ * @param phase 'install' or 'runtime':
+ * @return A keyed array of requirements
+ */
+function loft_data_grids_requirements($phase) {
+  $reqs = array();
+  $t = get_t();
+  $info = libraries_load('loft_data_grids');
+  if ($phase === 'update' && !$info['loaded']) {
+    $reqs['loft_data_grids'] = array(
+      'title' => check_plain($info['name']),
+      'value' => $t('Not Found!'),
+      'description' => $t('The Loft Data Grids library is missing; see README for installation instructions.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  elseif ($phase == 'runtime') {
+
+    $reqs['loft_data_grids'] = array(
+      'title' => check_plain($info['name']),
+      'value' => check_plain($info['version']),
+      'description' => $t('Successfully loaded library from %path.', array(
+        '%path' => libraries_get_path('loft_data_grids'),
+      )),
+      'severity' => REQUIREMENT_OK,
+    );
+    if (!$info['installed']) {
+      $reqs['loft_data_grids']['value'] = $t('Not Found!');
+      $reqs['loft_data_grids']['description'] = $t('The Loft Data Grids library is missing; see README for installation instructions.');
+      $reqs['loft_data_grids']['severity'] = REQUIREMENT_ERROR;
+    }
+    if (!$info['loaded']) {
+      $reqs['loft_data_grids']['value'] = $t('Not Loaded!');
+      $reqs['loft_data_grids']['description'] = $t('The Loft Data Grids library was found but not loaded; see README for installation instructions.');
+      $reqs['loft_data_grids']['severity'] = REQUIREMENT_ERROR;
+    }
+
+    $exporters = loft_data_grids_export_info();
+    if (($missing = array_diff(_loft_data_get_possible_exporters(), array_keys($exporters)))) {
+      $reqs['loft_data_grids']['description'] .= $t(' However, the following Exporters have unmet dependencies and are not available: @list.', array(
+        '@list' => implode(', ', $missing),
+      ));
+      $reqs['loft_data_grids']['severity'] = REQUIREMENT_WARNING;
+    }
+  }
+  return $reqs;
+}

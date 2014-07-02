@@ -1,0 +1,42 @@
+.l-branding {
+	text-align: center;
+
+		@include breakpoint($tab,true) { 
+					
+					text-align: left;
+	
+		}
+
+	a {
+		max-width:100%;
+		min-width:100%;	
+
+
+	}
+
+	img {
+		margin-bottom:$vert-spacing-unit/6;
+		padding:$vert-spacing-unit*2 $vert-spacing-unit*2 0;
+
+		//Margin around logo for $tab.
+		@include breakpoint($tab,true) {
+			margin:0;
+			padding:$vert-spacing-unit/2;
+		}
+		//Margin around logo for $desk.
+		@include breakpoint($desk,true) {
+			padding:$vert-spacing-unit/2;
+		}
+	}
+
+	a.button {
+		
+	}
+
+}
+
+
+
+
+
+

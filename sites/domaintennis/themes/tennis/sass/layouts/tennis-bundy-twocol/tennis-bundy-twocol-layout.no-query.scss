@@ -1,0 +1,5 @@
+$breakpoint-no-queries: false;
+$breakpoint-no-query-fallbacks: true;
+
+// Re-render everything from bundy-mercury-twocol-layout".scss but without media queries.
+@import "tennis-bundy-twocol-layout";

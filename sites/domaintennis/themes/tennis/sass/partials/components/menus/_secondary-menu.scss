@@ -1,0 +1,42 @@
+/*
+*	Secondary Menu
+*	Simple horizontal menu.
+*
+*	Block Class: .block-secondary-menu
+*	UL Class: .menu
+*/
+
+
+.block-secondary-menu ul.menu {
+	//@include horizontal-links;
+	@include no-bullets;
+	@include horizontal-list-container;
+	@include apply-side-rhythm-border(right,0px,0.5);
+	
+	//Position
+	display: none;
+	
+	@include breakpoint($tab,true) {
+		display: block;
+	}
+	
+	li {
+		@include horizontal-list-item;
+	
+		a {
+			@include unstyled-link;
+			//@extend .is-inline-block ;
+			@include rhythm(0,0.2,0.2,0);
+			@include adjust-font-size-to(16px);
+			@include adjust-leading-to(0.3,16px);
+			text-transform: capitalize;
+			font-family: $header-font;		
+			font-weight:300;
+		}
+		a:hover {
+			color:$blue-light;
+			text-decoration: underline;
+		}
+	}
+	
+}

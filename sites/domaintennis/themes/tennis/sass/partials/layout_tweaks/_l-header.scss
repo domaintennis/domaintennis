@@ -1,0 +1,14 @@
+/*
+*	Header Layout Tweaks
+*	Positioning of navigation menu ul is absolute and aligned to the bottom of .l-navigation,
+*	which is positioned relatively within .l-header-right.  .l-header-right is 
+*	positioned absolutely to its parent .l-container.  The height of .l-container 
+*	is determined by the site logo.
+*
+*	Header to be positioned absolutely and overlayed on top of the banner slideshow on 
+*	frontpage only.
+*
+*	Wrapping Element: .l-header-wrap
+*	Left Container: 	.l-branding
+*	Right container: .l-header-right
+*/

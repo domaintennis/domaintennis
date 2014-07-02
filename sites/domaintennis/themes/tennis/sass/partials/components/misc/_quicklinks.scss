@@ -1,0 +1,114 @@
+.l-suffix-wrap .l-container {
+	padding-top:$vert-spacing-unit*1.20;
+	padding-left:$horz-spacing-unit;
+	padding-right:$horz-spacing-unit;	
+}
+
+
+a.quicklink {
+	display:block;
+	
+	//Colors
+	background:white;
+	
+	text-decoration: none;
+
+	@include border-radius(5px);
+
+	border-color:transparent;
+	@include trailing-border(10px, 0.5);
+	
+	//Quicklink Title
+	.quicklink-title {
+		display:block;
+	
+		//Font styling
+		font-family:$header-font;
+		text-transform:uppercase;
+	
+		//Font sizing
+		@include adjust-font-size-to(24px);
+		@include adjust-leading-to(0.8,24px);
+		
+		//Colors
+		color:#ffffff;
+		//background:$blue-mid;
+		//@include background-image(linear-gradient($blue-mid, $blue-dark));
+	
+		//Spacing 
+		@include rhythm(0,0,0,0);
+
+		//Box Styling
+		@include border-top-left-radius(5px);
+		@include border-top-right-radius(5px);	
+
+		h2 {
+		  padding-top:$vert-spacing-unit/2;
+		  margin-bottom:0;
+		  @include adjust-font-size-to(18px, 1, 22px);
+		}
+
+	}	
+	
+	//Quicklink image
+	.quicklink-image {
+		img {
+			max-width: 100%;
+			min-width: 100%;
+		}
+
+	}
+	
+	//Quicklink image
+	.quicklink-text {
+		//Box Styling
+		display:block;
+	
+		//Spacing 
+		@include rhythm(0,1,1,0);
+	
+		
+		//Font sizing
+		@include adjust-font-size-to(14px);
+		@include adjust-leading-to(1,14px);
+
+		//Colors
+		color:$grey-dark;
+	}	
+	
+	//TABLET
+	@include breakpoint($tab,true) {
+		
+		text-align:left;//Align text left
+
+				
+	}
+	
+	
+	//DESKTOP
+	@include breakpoint($desk,true) {
+		
+		
+	}
+	
+		
+}
+
+a.quicklink:hover {
+	border-color:$lightest-grey;
+	@include trailing-border(10px, 0.5);
+}
+
+.l-sidebar-first a.quicklink {
+	
+	.quicklink-title h2 {
+		//Spacing 
+		@include trailing-border(0px,0);
+	}
+
+	//Quicklink Title
+	.quicklink-text {
+		padding:0;
+	}
+	 
+}

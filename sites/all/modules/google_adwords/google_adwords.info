@@ -1,0 +1,12 @@
+name = Google AdWords Conversion
+description = Adds Google AdWords Conversion Tracking fields and rules.
+core = 7.x
+package = Statistics
+
+recommended = rules
+; Information added by drupal.org packaging script on 2012-05-24
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "google_adwords"
+datestamp = "1337818752"
+

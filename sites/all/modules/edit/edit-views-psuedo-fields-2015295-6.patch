@@ -1,0 +1,26 @@
+diff --git a/edit.module b/edit.module
+index c800fca..b475cef 100644
+--- a/edit.module
++++ b/edit.module
+@@ -435,12 +435,17 @@ function edit_preprocess_views_view_field(&$variables) {
+       $entity_type = $entity_info['entity_type'];
+       $entity = $entity_info['entity'];
+       $field_name = $views_field->field;
+-      $language = !empty($entity->language) ? $entity->language : LANGUAGE_NONE;
+-      list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+ 
+-      $edit_id = "$entity_type/$id/$field_name/$language/_custom_views";
++      // Ensure that only fields from the base entity (not appended text or
++      // provided via relationships) are marked as editable.
++      if (isset($entity->$field_name) && empty($views_field->relationship)) {
++        $language = !empty($entity->language) ? $entity->language : LANGUAGE_NONE;
++        list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+ 
+-      $variables['output'] = edit_wrap_pseudofield($variables['output'], $edit_id, _edit_is_extra_field($entity_type, $field_name));
++        $edit_id = "$entity_type/$id/$field_name/$language/_custom_views";
++
++        $variables['output'] = edit_wrap_pseudofield($variables['output'], $edit_id, _edit_is_extra_field($entity_type, $field_name));
++      }
+     }
+   }
+ }

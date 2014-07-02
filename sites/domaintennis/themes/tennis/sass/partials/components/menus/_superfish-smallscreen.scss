@@ -1,0 +1,34 @@
+
+
+///////////////////////////////////////////////////////////
+//// MOBILE TOGGLE BUTTON
+///////////////////////////////////////////////////////////
+
+div.sf-accordion-toggle.sf-style-white a {	
+		
+		//Box Stylimg
+		display: block;
+
+		//Text Styling 
+		text-align: center;
+		text-decoration:none;
+
+		//Colors
+		color:#ffffff;
+
+		//Spacing
+		@include rhythm(0, 0.2, 0.2, 0);
+		@include apply-side-rhythm-border(left, 0px, 0.5,16px);
+		@include apply-side-rhythm-border(right, 0px, 0.5,16px);	
+}
+
+
+.sf-accordion.sf-menu.sf-style-white {
+	li {
+		text-align: left;
+	}
+	ul {
+		text-align: left;
+	}
+	
+}

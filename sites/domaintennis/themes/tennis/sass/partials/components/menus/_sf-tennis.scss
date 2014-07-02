@@ -1,0 +1,34 @@
+/*
+*	SF Tennis
+*	Superfish styling exclusive to the Domain Tennis website, excludes most color styling which is set in sf-white.scss
+*
+*	.sf-menu 	
+*	Label 	Value
+*/
+
+
+.sf-menu.sf-style-white {
+
+	//Text Styling
+	text-align: center;
+
+	
+	text-transform: uppercase;
+	font-weight:700;
+	@include adjust-font-size-to(18px, 1);
+	letter-spacing:0.2em;
+
+
+	ul {
+		text-align:left; 
+	}
+
+	li.sf-depth-1 {
+
+		//Position
+		float:none;
+		display: inline-block;
+	}
+
+}
+

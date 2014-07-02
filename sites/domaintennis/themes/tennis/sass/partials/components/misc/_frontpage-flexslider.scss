@@ -1,0 +1,198 @@
+/*
+*	FLEXSLIDER BANNER STYLING
+*	This file provides responsive styling for a flexslider based slideshow output via views,
+*	with a textbox containing Title & Subtitle fields. This textbox is wrapped in a link. 
+*
+*	Class type: .class-name
+*	Class type:	.class-name
+*/
+
+
+
+.flexslider {
+	border:0;
+	margin:0;
+	background:transparent;
+}
+
+///////////////////////////////////////////////////////////
+//// ADMIN
+///////////////////////////////////////////////////////////
+
+//shows both sets of contextual links (banner block + individual banner slides node edit/delete/manage display
+body.logged-in .block--views-frontpage-banner-block, body.logged-in .view-frontpage-banner-controls {
+	//padding:$vert-spacing-unit/2;
+}
+
+.ds-banner-wrap {
+	position:relative;
+}
+
+
+///////////////////////////////////////////////////////////
+//// CONTROLS
+///////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////
+//// TEXTBOX
+///////////////////////////////////////////////////////////
+
+
+.l-ds-banner-textbox {
+	color:#ffffff;
+
+	//Position
+	position:absolute;
+	top:60%;
+	right:0%;
+	width:100%;
+	
+	//Colors
+	background:transparent;
+
+	//Tablet Position & Spacing
+	@include breakpoint($tab,true) {
+		
+		//Position
+		top:50%;
+		right:10%;
+		width:30%;
+		
+		//Colors
+		background:transparent;
+		
+	}
+	
+	@include breakpoint($desk,true) {
+		
+	}
+	
+	
+	//Text Links
+	a, a:visited {
+		color:#ffffff;
+		text-decoration: none;
+		display:inline-block;
+		padding:0 $vert-spacing-unit/2;
+		@include rhythm(0,0.2,0.2,0);
+		
+		//Font
+		font-family:$header-font;
+		text-transform: uppercase;
+		
+		//Mobile Font-size
+		@include adjust-font-size-to(30px,1);
+		
+		//Subtitle
+		span.ds-textbox-subtitle {
+			
+			//Position
+			display:block;			
+			
+			//Font Styling
+			@include adjust-font-size-to(16px,1,30px);
+			text-transform: none;
+			font-weight:300;
+			
+			//Colors
+			color:$blue-light;
+		
+			//Text Shadow
+			@include text-shadow(1px 1px 3px rgba(0,0,0,0.9));
+		}
+
+		//Tablet Font-Size
+		@include breakpoint($tab,true) {
+			@include adjust-font-size-to(30px,1.2);
+			//@include adjust-leading-to(1.6,30px);
+			
+			//Subtitle
+			span.ds-textbox-subtitle {
+				//Font Styling
+				@include adjust-font-size-to(13px,1,30px);
+			}
+		}
+		
+		//Desktop Font-size
+		@include breakpoint($desk,true) {
+			@include adjust-font-size-to(50px);
+			@include adjust-leading-to(1.6,50px);
+			
+			//Subtitle
+			span.ds-textbox-subtitle {
+				//Font Styling
+				@include adjust-font-size-to(20px,1,50px);
+			}
+		}
+		
+		//Text Shadow
+		@include text-shadow(2px 2px 3px rgba(0,0,0,0.9));
+		i {
+			font-size:.5em;
+		}
+	}
+	a:hover {
+		background:darken($blue-mid,5%);
+	}
+	
+
+}
+
+.ds-textbox {
+	padding:$vert-spacing-unit/1.8 $vert-spacing-unit/1.4;
+
+		@include breakpoint($tab,true) {
+			padding:$vert-spacing-unit/1.5 $vert-spacing-unit/1.3;
+		}
+		
+		@include breakpoint($desk,true) {
+			padding:$vert-spacing-unit $vert-spacing-unit;
+		}
+}
+
+///////////////////////////////////////////////////////////
+//// SLIDE CONTROLS
+///////////////////////////////////////////////////////////
+
+body.logged-in .flex-control-nav {
+	bottom:50px;
+}
+
+.flex-control-nav {
+	
+	//Position
+	bottom:5%;
+	z-index:10;
+	
+	//Box Styling
+	width:100%;
+	
+	@include breakpoint($tab,true) {
+		
+		//Position
+		bottom:10px;
+		
+		//Box Styling
+		width:100%;
+		
+	}
+}
+
+.flex-control-nav.flex-control-paging {
+	a {
+		@include border-radius(0px);
+		border:2px solid #ffffff;
+		width:14px;
+		height:14px;
+		background:transparent;
+		opacity: 1;
+	}
+	 a.flex-active {
+	 	background:$blue-light;
+	 }
+	 a:hover {
+		 background:$blue-light;
+	 }
+}
+

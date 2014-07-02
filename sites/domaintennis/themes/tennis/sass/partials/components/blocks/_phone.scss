@@ -1,0 +1,61 @@
+/*
+*	Phone
+*	Styling for click to call button.
+*
+*	Block Class: 	.block-phone
+*	State Classes: 	.is-reversed .is-inline-block
+*/
+
+.l-region--navigation {
+	position: relative;
+}
+
+.block-phone {
+	display: inline-block;
+	
+	//Position
+	position: absolute;
+	top:0;
+	right:90px;
+	
+	z-index: 100;
+	
+	
+	//Hide for tablets
+	@include breakpoint($tab,true){
+		display:none;
+	}
+	
+	.block__content  {
+		
+		// TOGGLE BUTTON
+		a {
+			display: block;	
+			background:transparent;
+			border:none;
+			@include rhythm(0,0.6,0.7,0);
+			@include adjust-font-size-to(15px);
+			@include adjust-leading-to(1,15px);
+			text-decoration: none;
+			color:#ffffff;
+			@include apply-side-rhythm-border(left,2px,0.5,15px);
+			@include apply-side-rhythm-border(right,0px,0.5,15px);
+			
+			//Colors
+			border-color:darken($blue-mid,5%);
+			font-family:$header-font;
+		}
+		a:hover {
+			text-decoration: none;
+			background:darken($blue-mid,5%);
+		}
+		a.sf-expanded {
+			background:transparent;
+			font-weight:300;
+		}
+	}
+}
+
+
+
+

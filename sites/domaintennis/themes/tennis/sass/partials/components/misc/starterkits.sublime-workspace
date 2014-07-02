@@ -1,0 +1,308 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"end",
+				"endif"
+			],
+			[
+				"trail",
+				"trailing-border	Compass"
+			],
+			[
+				"d",
+				"drush"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "_frontpage-banner.scss",
+			"settings":
+			{
+				"buffer_size": 3759,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Disable Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Package Control: Install Package"
+			],
+			[
+				"package inst",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"package insta",
+				"Package Control: Install Package"
+			],
+			[
+				"drush",
+				"Drush: Cache Clear (Clear a specific cache, or all drupal caches)"
+			],
+			[
+				"Pack",
+				"Package Control: Add Repository"
+			],
+			[
+				"Snippet: ",
+				"Snippet: #!/usr/bin/env"
+			]
+		],
+		"width": 638.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"cache-clear",
+			"alias-edit",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())",
+			"test"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/sass/merc.hacks.scss",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/js/merc-functions.js",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/layouts/twocol/twocol.layout.inc",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/generic_v0.01.starterkit.inc",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/layouts/threecol/threecol-layout.tpl.php",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/layouts/twocol/twocol-layout.tpl.php",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/layouts/threecol/preview.png",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/layouts/twocol/preview.png",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/theme/field.theme.inc",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/sass/merc.no-query.scss",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/css/layouts/twocol/twocol.css",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/css/merc.no-query.css",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/layouts/threecol/threecol.layout.inc",
+		"/Volumes/nord/d7multi/sites/roaringforties/themes/roar/preprocess/html.preprocess.inc",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/preprocess/html.preprocess.inc",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/generic.starterkit.inc",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/sass/layouts/threecol/twocol-layout.scss",
+		"/Volumes/nord/d7multi/sites/all/themes/omega/omega/starterkits/generic_v0.01/css/layouts/threecol/twocol.css",
+		"/Volumes/nord/d7multi/sites/mercwalch/sftp-config.json",
+		"/Volumes/nord/d7multi/sites/mercwalch/settings.php",
+		"/Users/Ron/Sites/mercwalch/mercwalch.sftp",
+		"/Volumes/nord/d7multi/sites/mercwalch/default.settings.php",
+		"/Volumes/nord/d7multi/sites/sites.php",
+		"/Volumes/nord/d7multi/sites/roaringforties/themes/roar/sass/partials/base/_typography.scss",
+		"/Volumes/nord/d7multi/sites/roaringforties/themes/roar/libraries.make",
+		"/Volumes/nord/d7multi/sites/roaringforties/themes/roar/theme-settings.php",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/User/Terminal.sublime-settings",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/MacTerminal/MacTerminal.sublime-settings",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/Terminal/Terminal.sublime-settings",
+		"/Users/Ron/Sites/roar.sublime-project",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Volumes/nord/d7multi/sites/roaringforties/themes/roar/roar.info",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/User/Side Bar.sublime-settings",
+		"/Volumes/nord/d7multi/sites/roaringforties/themes/roar/sass/partials/components/blocks/_title-box.scss",
+		"/Users/Ron/Sites/roar/sftp-config.json",
+		"/Users/Ron/Sites/roar/test.scss",
+		"/Users/Ron/Sites/roar/sass/roar.test.scss",
+		"/Users/Ron/Sites/nord.sftp",
+		"/Volumes/Multimedia/Jobs/131066 Roaring 40s Website/roaringforties.sublime-project",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/SideBarEnhancements/CHANGELOG",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/User/test.scss",
+		"/Users/Ron/Library/Application Support/Sublime Text 3/Packages/User/csshead"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"second",
+			"nav_second",
+			"second",
+			"navigation",
+			"navigati",
+			"navigation",
+			"first",
+			"content",
+			"<",
+			"roaringforties"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "_frontpage-banner.scss",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 3759,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1152,
+								1152
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 140.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sftp":
+	{
+		"height": 419.0
+	},
+	"project": "starterkits.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/Volumes/Multimedia/Jobs/131066 Roaring 40s Website/roaringforties.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 282.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

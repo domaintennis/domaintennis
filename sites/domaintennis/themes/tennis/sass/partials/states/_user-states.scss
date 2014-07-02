@@ -1,0 +1,12 @@
+
+
+body.logged-in ul.tabs {
+	
+	//Hide tabs for mobiles
+	display:none;
+	
+	//Show for tablets & above
+	@include breakpoint($tab,true) {
+		display:block;
+	}
+}

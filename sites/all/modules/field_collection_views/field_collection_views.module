@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @file
+ * Module implementing a field-collection views formatter.
+ */
+
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function field_collection_views_field_formatter_info() {
+  return array(
+    'field_collection_views_view' => array(
+      'label' => t('Views field-collection items'),
+      'field types' => array('field_collection'),
+      'settings' =>  array(
+        'name' => 'field_collection_view',
+        'display_id' => 'default',
+        'add' => t('Add'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function field_collection_views_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'field_collection_views_view':
+      $args = '';
+      $i = 1;
+      foreach ($items as $delta => $item) {
+        if ($i == 1) {
+          $args .= $item['value'];
+        }
+        else {
+          $args .= '+' . $item['value'];
+        }
+        $i++;
+      }
+      $view_name = isset($settings['name']) ? $settings['name'] : 'field_collection_view';
+      $display_id = isset($settings['display_id']) ? $settings['display_id'] : 'default';
+      $content = views_embed_view($view_name, $display_id, $args);
+      $element[0] = array(
+        '#markup' => $content,
+      );
+      if (empty($items)) {
+        field_collection_field_formatter_links($element, $entity_type, $entity, $field, $instance, $langcode, $items, $display);
+      }
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function field_collection_views_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = isset($form_state['values']['fields'][$field['field_name']]['settings_edit_form']) ? $form_state['values']['fields'][$field['field_name']]['settings_edit_form']['settings'] : $display['settings'];
+  
+  $views = array('' => t('-- Please select --')) + _field_collection_views_get_views();
+  $views_keys = array_keys($views);
+
+  $selected_view = (isset($settings['name']) ? $settings['name'] : (isset($views_keys[0]) ? $views_keys[0] : ''));
+
+  $elements['name'] = array(
+    '#type' => 'select',
+    '#title' => t('Select a view'),
+    '#options' => $views,
+    '#default_value' => $selected_view,
+    //'#description' => t('The machine name of the view to embed.'),
+    '#ajax' => array(
+      'event' => 'change',
+      'callback' => '_field_collection_views_views_dropdown_callback',
+      'wrapper' => 'views-replace',
+    ),
+  );
+  $elements['display_id'] = array(
+    '#prefix' => '<div id="views-replace">',
+    '#suffix' => '</div>',
+    '#type' => 'select',
+    '#title' => t('Display'),
+    '#options' => _field_collection_views_get_views_displays($selected_view),
+    '#default_value' => isset($settings['display_id']) ? $settings['display_id'] : '',
+    //'#description' => t('The display id to embed.'),
+  );
+  $elements['add'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Add link title'),
+    '#default_value' => $settings['add'],
+    '#description' => t('Leave the title empty, to hide the link.'),
+  );
+
+  return $elements;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function field_collection_views_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $links = array_filter(array_intersect_key($settings, array_flip(array('name', 'display_id'))));
+  if ($links) {
+    return '<em>Embed View:</em> ' . check_plain(implode(', ', $links));
+  }
+  else {
+    return t('Not showing any view.');
+  }
+
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function field_collection_views_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'field_collection_views') . '/views',
+  );
+}
+
+/**
+ * Ajax callback, triggered when view is changed.
+ */
+function _field_collection_views_views_dropdown_callback($form, $form_state) {
+  $location = $form_state['triggering_element']['#array_parents'];
+  array_pop($location);
+  $location[] = 'display_id';
+
+  $item = drupal_array_get_nested_value($form, $location);
+  return $item;
+}
+
+/**
+ * Helper function to get all views.
+ */
+function _field_collection_views_get_views() {
+  $enabled_views = array();
+  $views = views_get_enabled_views();
+
+  foreach ($views as $view) {
+    if ($view->base_table == 'field_collection_item') {
+      $enabled_views[$view->name] = $view->name;
+    }
+  }
+  ksort($enabled_views);
+  return $enabled_views;
+}
+
+/**
+ * Helper function to get all view displays.
+ */
+function _field_collection_views_get_views_displays($view_name) {
+
+  if (empty($view_name)) {
+    // No view.
+    return array();
+  }
+
+  $views = views_get_enabled_views();
+  if (!isset($views[$view_name])) {
+    return array();
+  }
+
+  $view = $views[$view_name];
+
+  if (empty($view->display)) {
+    // This view is broken.
+    return array();
+  }
+
+  foreach ($view->display as $id => $display) {
+    $displays[$id] = $id . ': ' . $display->display_title;
+  }
+  return $displays;
+}

@@ -1,0 +1,6 @@
+name = Royal Slider Skins
+description = Custom skins made available to Royal Slider.
+dependencies[] = royalslider
+package = User Interface
+core = 7.x
+files[] = tests/rs_skins.test

@@ -1,0 +1,42 @@
+name = Tennis
+description = Please provide a description for your theme.
+base theme = omega
+screenshot = screenshot.png
+engine = phptemplate
+core = 7.x
+version = 0.02
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[all][] = css/tennis.normalize.css
+stylesheets[all][] = css/tennis.hacks.css
+stylesheets[all][] = css/tennis.styles.css
+stylesheets[all][] = css/tennis.no-query.css
+
+; ========================================
+; Regions
+; ========================================
+regions[header] = Header
+regions[nav] = Navigation bar
+regions[banner] = Banner
+regions[branding] = Branding
+regions[content_header] = Content Header
+regions[titlebox] = Title Box
+regions[titlebox_right] = Title Box Right
+regions[help] = Help
+regions[content] = Content
+regions[content_first] = Content First
+regions[content_second] = Content Second
+regions[content_footer] = Content Footer
+regions[sidebar_first] = First sidebar
+regions[footer_first] = Footer First
+regions[footer_second] = Footer Second
+regions[footer_strapline] = Footer Strapline
+regions[suffix_first] = Suffix First
+regions[suffix_second] = Suffix Second
+regions[suffix_third] = Suffix Third
+; ========================================
+; Scripts
+; ========================================
+scripts[] = js/tennis-functions.js

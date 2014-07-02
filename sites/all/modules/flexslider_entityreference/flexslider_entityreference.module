@@ -1,0 +1,157 @@
+<?php
+/**
+ * @file
+ * Provides a FlexSlider formatter for Entity Reference fields.
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function flexslider_entityreference_field_formatter_info() {
+  return array(
+    'entityreference_entity_flexslider' => array(
+      'label' => t('FlexSlider'),
+      'description' => t('Displays the rendered entities in a FlexSlider.'),
+      'field types' => array('entityreference'),
+      'settings' => array(
+        'view_mode' => '',
+        'view_mode_thumb' => '',
+        'optionset' => '',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function flexslider_entityreference_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $form = array();
+
+  // Show select box for the option set.
+  $optionsets = array();
+  ctools_include('export');
+  foreach (flexslider_optionset_load_all() as $name => $optionset) {
+    $optionsets[$name] = check_plain($optionset->title);
+  }
+  $form['optionset'] = array(
+    '#title' => t('Option set'),
+    '#type' => 'select',
+    '#options' => $optionsets,
+    '#default_value' => $settings['optionset'],
+  );
+
+  $entity_info = entity_get_info($field['settings']['target_type']);
+  $options = array();
+  if (!empty($entity_info['view modes'])) {
+    foreach ($entity_info['view modes'] as $view_mode => $view_mode_settings) {
+      $options[$view_mode] = $view_mode_settings['label'];
+    }
+  }
+  if (count($options) > 1) {
+    $form['view_mode'] = array(
+      '#type' => 'select',
+      '#options' => $options,
+      '#title' => t('Slide view mode'),
+      '#default_value' => $settings['view_mode'],
+    );
+    $form['view_mode_thumb'] = array(
+      '#type' => 'select',
+      '#options' => array('_empty' => '(' . t('Empty string') . ')') + $options,
+      '#title' => t('Thumbnail view mode'),
+      '#default_value' => $settings['view_mode_thumb'],
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function flexslider_entityreference_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  // Load option set.
+  ctools_include('export');
+  if (!empty($settings['optionset'])) {
+    $optionset = flexslider_optionset_load($settings['optionset']);
+  }
+
+  // Build settings summary.
+  $optionset = isset($optionset) ? $optionset->title : t('Default settings');
+  $summary[] = t('Option set: %optionset', array('%optionset' => $optionset));
+
+  $entity_info = entity_get_info($field['settings']['target_type']);
+  $summary[] = t('Slides rendered as @mode', array('@mode' => isset($entity_info['view modes'][$settings['view_mode']]['label']) ? $entity_info['view modes'][$settings['view_mode']]['label'] : $settings['view_mode']));
+  if ($settings['view_mode_thumb'] == '_empty') {
+    $summary[] = t('Thumbnails rendered as @mode', array('@mode' => t('empty strings')));
+  }
+  else {
+    $summary[] = t('Thumbnails rendered as @mode', array('@mode' => isset($entity_info['view modes'][$settings['view_mode_thumb']]['label']) ? $entity_info['view modes'][$settings['view_mode_thumb']]['label'] : $settings['view_mode_thumb']));
+  }
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function flexslider_entityreference_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  entityreference_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, $items, $displays);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function flexslider_entityreference_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $result = array();
+  $settings = $display['settings'];
+
+  // Rebuild the items list to contain only those with access.
+  foreach ($items as $key => $item) {
+    if (empty($item['access'])) {
+      unset($items[$key]);
+    }
+  }
+  switch ($display['type']) {
+    case 'entityreference_entity_flexslider':
+      foreach ($items as $delta => $item) {
+        // Protect ourselves from recursive rendering.
+        static $depth = 0;
+        $depth++;
+        if ($depth > 20) {
+          throw new EntityReferenceRecursiveRenderingException(t('Recursive rendering detected when rendering entity @entity_type(@entity_id). Aborting rendering.', array('@entity_type' => $entity_type, '@entity_id' => $item['target_id'])));
+        }
+
+        // Clone the entity to support rendering the same entity in itself.
+        $entity = clone $item['entity'];
+        unset($entity->content);
+        $entity_build = entity_view($field['settings']['target_type'], array($item['target_id'] => $entity), $settings['view_mode'], $langcode, FALSE);
+        $result[$delta] = array(
+          'slide' => drupal_render($entity_build),
+          'thumb' => '',
+        );
+        if ($settings['view_mode_thumb'] !== '_empty') {
+          $entity_build = entity_view($field['settings']['target_type'], array($item['target_id'] => $entity), $settings['view_mode_thumb'], $langcode, FALSE);
+          $result[$delta]['thumb'] = drupal_render($entity_build);
+        }
+        $depth = 0;
+      }
+      break;
+  }
+  $element = array();
+  if (count($result) > 0) {
+    $element[] = array(
+      '#theme' => 'flexslider',
+      '#items' => $result,
+      '#settings' => $display['settings'],
+    );
+  }
+  return $element;
+}

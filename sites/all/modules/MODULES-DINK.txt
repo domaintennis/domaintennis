@@ -1,0 +1,7 @@
+Media Feeds
+
+- Created option to autohide the controls: Patch https://drupal.org/node/1481752
+
+Media: YouTube
+
+- Rel (related videos) functionality does not work: Patch https://drupal.org/node/1697354

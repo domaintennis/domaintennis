@@ -1,0 +1,104 @@
+/*
+*	Social Icons
+*	Social icons rendered via Fontawesome. This file is mainly for 
+*	colour variations and link styling.
+*
+*	Block: .block-social-icons
+*/
+
+//Icon Colours
+//These are custom classes added to <i>, not Font awesome classes.
+$fb-blue:		#3B5999;
+$twitter-blue:	#30D8F0;
+$youtube-red:	#FA0542;
+
+//Block
+.block-social-icons {
+	//background:black;
+
+	.block__content {
+		padding:$vert-spacing-unit*1.5 0;
+
+			@include breakpoint($tab,true) { 
+						
+						padding-top:$vert-spacing-unit*2;
+						padding-bottom:0;
+		
+			}
+	}
+
+	//Font Styling
+	text-align:center;
+
+		@include breakpoint($tab,true) { 
+					
+					text-align: right;
+	
+		}
+	
+	i {
+
+	    padding: 0;
+	    border-radius: 50%;
+	
+		//Colors
+		color:black;
+		background:#ffffff;
+
+	    font-size:1em;
+	    display:block;
+	    height:2em;
+	    width:2em;
+	    text-align:center;
+	    padding-top:0.6em;
+
+	}
+	
+	
+	//Icons within link
+	a.circle-link {
+	
+		font-size:24px;
+
+	//Text Styling
+	text-decoration:none;
+	text-align: center;
+	
+	//Box Styling
+	display: inline-block;
+
+	//Spacing
+	margin-right:$horz-spacing-unit/2;
+
+
+	}
+	
+	//Icons within link Hovers
+	a:hover {
+	
+
+	}
+}
+
+.l-footer-first .block-social-icons { 
+	//Font Styling
+	text-align:center;
+
+	@include breakpoint($tab,true) { 
+				
+				text-align:left;
+
+	}
+
+	.block__content {
+		padding:$vert-spacing-unit*1.5 0;
+		padding-bottom:0;
+
+			@include breakpoint($tab,true) { 
+						
+						padding-top:$vert-spacing-unit*2;
+						padding-bottom:$vert-spacing-unit*2;
+		
+			}
+	}
+}

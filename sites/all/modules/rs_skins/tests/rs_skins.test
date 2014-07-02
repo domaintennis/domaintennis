@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file 
+ * Contains tests for the Royal Slider Skins module.
+ */
+
+/**
+ * Test case.
+ */
+class RsSkinsTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Royal Slider Skins tests'),
+      'description' => t('TODO: write me.'),
+      'group' => t('Royal Slider Skins'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  function setUp() {
+    // Call the parent with an array of modules to enable for the test.
+    parent::setUp(array('rs_skins'));
+
+    // TODO: perform additional setup tasks here if required.
+  }
+
+  /**
+   * Test the module's functionality.
+   */
+  function testTodoChangeThisName() {
+    // TODO: write test!
+  }
+
+}

@@ -1,0 +1,126 @@
+/**
+ * $FONT-FACE
+ */
+//@import url('http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic');
+//@import url('http://fonts.googleapis.com/css?family=Noto+Serif:400,700');
+@import url('http://fonts.googleapis.com/css?family=Droid+Sans:400,700');
+/**
+ * $BASE-TYPOGRAPHY
+ */
+@include establish-baseline;
+ 
+body {
+	font-family:$body-font;
+	font-weight:300;
+	color: $grey-dark;
+  @include adjust-font-size-to(18px, 1);
+	}
+
+/**
+ * $LINKS
+ */
+a {
+	//color:#4197B4;
+    @include link-colors($blue-dark, $blue-mid, $blue-dark, $blue-dark);
+}
+
+
+/**
+ * $HEADINGS
+ */
+h1, .alpha,
+h2, .beta,
+h3, .gamma,
+h4, .delta,
+h5, .epsilon,
+h6, .zeta,
+.field--name-field-subtitle {
+  @include rhythm(0, 0.7, 0, 0.5);
+  color: $green;
+  text-transform: uppercase;
+  font-family: $header-font;
+  font-weight: 700;
+}
+
+h1, .alpha {
+  @include adjust-font-size-to(36px,1.6);
+  //@include adjust-leading-to(1.5,36px);
+  @include rhythm(0, 0, 0, 0.5);
+}
+
+h2, .beta, .field--name-field-subtitle {
+  @include adjust-font-size-to(22px);
+  @include adjust-leading-to(1);
+}
+
+
+
+h3, .gamma {
+  @include adjust-font-size-to(21px);
+  @include adjust-leading-to(1,21px);
+  
+
+}
+h4, .delta {
+  @include adjust-font-size-to(18px);
+}
+h5, .epsilon{
+  @include adjust-font-size-to(16px);
+
+}
+h6, .zeta {
+  @include adjust-font-size-to(16px);
+}
+
+/**
+ * $PARAGRAPHS
+ */
+p,
+%p {
+  margin: 0;
+  @include rhythm(0, 0, 0, 0.5);
+}
+p + img {
+  float: left;
+  margin-right: $horz-spacing-unit;
+}
+
+
+
+/**
+ * $QUOTES
+ */
+blockquote {
+  @extend %p;
+  @include rhythm(0, 1, 1, 1);
+  padding: 0 1.5em;
+
+  @include rhythm-borders(1px);
+  @include apply-side-rhythm-border(left, 10px);
+  font-style: italic;
+  color: $grey-dark;
+
+  p {
+    margin: 0;
+  }
+}
+
+q {
+  font-style: italic;
+}
+
+/**
+ * $MARKS
+ */
+mark,
+.marker {
+  padding: 0.1em 0.5em;
+
+  background: $blue-light;
+
+  color: #FFF;
+  @include adjust-font-size-to(12px);
+  text-transform: capitalize;
+
+  @include border-radius(10px);
+}

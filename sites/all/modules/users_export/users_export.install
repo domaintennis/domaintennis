@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * Handles installation steps for users_export
+ *
+ * @ingroup func_search
+ * @{
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function users_export_uninstall() {
+  $vars = db_select('variable', 'v')
+    ->fields('v', array('name'))
+    ->condition('name', 'users_export%', 'LIKE')
+    ->execute()->fetchCol();
+  foreach ($vars as $var) {
+    variable_del($var);
+  }
+  db_delete('block')
+    ->condition('module', 'users_export')
+    ->execute();
+  db_delete('block_role')
+    ->condition('module', 'users_export')
+    ->execute();
+}
+
+/**
+ * Implements hook_enable().
+ */
+function users_export_enable() {
+  drupal_set_message(t('You may export users visiting <a href="@url">@url</a>.', array('@url' => url('admin/people/export'))));
+}
+
+/**
+ * Update from 7.x-1.1 to 7.x-2.0
+ */
+function users_export_update_7001(&$sandbox) {
+  $output = array();
+  try {
+    variable_del('users_export_type');
+    if (!module_exists('loft_data_grids')) {
+      $output[] = 'You must immediately install the Loft Data Grids module; refer to the README for instructions.' . "\n";
+    }
+  }
+  catch (Exception $e) {
+    throw new DrupalUpdateException('FAILED: Update from 7.x-1.0 to 7.x-2.0');
+  }
+
+  return implode("<br />", $output);
+}
+
+/** @} */ //end of group users_export

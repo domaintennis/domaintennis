@@ -1,0 +1,55 @@
+diff --git a/ckeditor_link.module b/ckeditor_link.module
+index a5b0cc9..7d1cf7f 100644
+--- a/ckeditor_link.module
++++ b/ckeditor_link.module
+@@ -104,6 +104,9 @@ function ckeditor_link_filter_info() {
+     'description' => t('Converts links added through <em>CKEditor Link</em> into aliased and language prefixed URLs.'),
+     'process callback' => 'ckeditor_link_filter_process',
+   );
++  if (defined('FILTER_TYPE_TRANSFORM_IRREVERSIBLE')) {
++    $filters['ckeditor_link_filter']['type'] = FILTER_TYPE_TRANSFORM_IRREVERSIBLE;
++  }
+   return $filters;
+ }
+ 
+@@ -126,3 +129,40 @@ function _ckeditor_link_filter_process($matches) {
+ 
+   return 'href="'. url("node/$nid", $options);
+ }
++/**
++ * Implements hook_editor_metadata_alter().
++ *
++ * Set correct module path.
++ * TODO: determine why this is neccessary.
++ */
++function ckeditor_link_edit_editor_metadata_alter(&$metadata, $editor_id, $context) {
++  if ($editor_id == 'ckeditor') {
++    $plugins = ckeditor_link_ckeditor_plugin();
++    $metadata['custom']['ckeditorSettings']['loadPlugins']['drupal_path'] = $plugins['ckeditor_link'];
++    $metadata['custom']['ckeditorSettings']['loadPlugins']['drupal_path']['path'] = $GLOBALS['base_path'] . $plugins['ckeditor_link']['path'];
++  }
++}
++
++/**
++ * Implements hook_editor_attachments_alter().
++ */
++function ckeditor_link_edit_editor_attachments_alter(&$attachments, $editor_id, $metadata) {
++  if ($editor_id == 'ckeditor') {
++    $attachments['css'][] = drupal_get_path('module', 'ckeditor_link') .'/ckeditor_link.css';
++    $attachments['js'][] = 'misc/autocomplete.js';
++    $attachments['js'][] = array(
++      'type' => 'setting',
++      'data' => array(
++        'ckeditor_link' => array(
++          'module_path' => base_path() . drupal_get_path('module', 'ckeditor_link'),
++          'autocomplete_path' => url('ckeditor_link/autocomplete'),
++          'revert_path' => url('ckeditor_link/revert'),
++          'msg_invalid_path' => t('Link must be a valid internal path.'),
++          'type_name' => ckeditor_link_get_link_type_name(),
++          'type_selected' => (bool) variable_get('ckeditor_link_type_selected', 1),
++        ),
++      ),
++    );
++  }
++}
++

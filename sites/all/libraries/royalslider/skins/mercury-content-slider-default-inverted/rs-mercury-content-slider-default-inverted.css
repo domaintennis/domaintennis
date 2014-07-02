@@ -1,0 +1,521 @@
+/******************************
+*
+*  RoyalSlider Default Inverted Skin 
+*
+*    1. Arrows 
+*    2. Bullets
+*    3. Thumbnails
+*    4. Tabs
+*    5. Fullscreen button
+*    6. Play/close video button
+*    7. Preloader
+*    8. Caption
+*    
+*  Sprite: 'rs-default-inverted.png'
+*  Feel free to edit anything
+*  If you don't some part - just delete it
+* 
+******************************/
+
+
+.block.block--views-browse-product-options-block h2.block__title {
+	/*margin-bottom:60px;*/
+	margin-left:0;
+	padding-left:0;
+}
+
+
+
+.rsMercuryContentSliderDefaultInv {
+  width: 100% !important;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;  
+  user-select: none;
+}
+
+.rsMercuryContentSliderDefaultInv .rsOverflow {
+
+}
+
+/*Slide Padding */
+.rsMercuryContentSliderDefaultInv .royalslider-item {
+	padding:16px;
+}
+
+.rsMercuryContentSliderDefaultInv h4 {
+	padding-top:0;
+	margin-top:0;
+	color:#ffffff;
+	font-size:1.3em;
+}
+
+
+/***************
+*
+*  Overridden defaults below...
+*
+****************/
+
+
+/* Background */
+.rsMercuryContentSliderDefaultInv,
+.rsMercuryContentSliderDefaultInv .rsOverflow,
+.rsMercuryContentSliderDefaultInv .rsSlide,
+.rsMercuryContentSliderDefaultInv .rsVideoFrameHolder,
+.rsMercuryContentSliderDefaultInv .rsThumbs {
+	color: #ffffff;
+}
+
+.rsMercuryContentSliderDefaultInv .rsOverflow {
+	background: #555555;
+}
+
+
+/***************
+*
+*  1. Arrows
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsArrow {
+	height: 100%;
+	width: 44px;
+	position: absolute;
+	display: block;
+	cursor: pointer;
+	z-index: 21;
+}
+.rsMercuryContentSliderDefaultInv.rsVer .rsArrow {
+	width: 100%;
+	height: 44px;
+	
+}
+.rsMercuryContentSliderDefaultInv.rsVer .rsArrowLeft { top: 0; left: 0; }
+.rsMercuryContentSliderDefaultInv.rsVer .rsArrowRight { bottom: 0;  left: 0; }
+
+.rsMercuryContentSliderDefaultInv.rsHor .rsArrowLeft { left: 0; top: 0; }
+.rsMercuryContentSliderDefaultInv.rsHor .rsArrowRight { right: 0; top:0; }
+
+.rsMercuryContentSliderDefaultInv .rsArrowIcn {		
+	width: 32px;
+	height: 32px;
+	top: 50%;
+	left: 50%;
+	margin-top:-16px;	
+	margin-left: -16px;
+
+	position: absolute;	
+	cursor: pointer;	
+	background: url('rs-default-inverted.png');
+
+	background-color: #FFF;
+	background-color: rgba(255,255,255, .75);
+	*background-color: #FFF;
+	
+	border-radius: 2px;
+}
+.rsMercuryContentSliderDefaultInv .rsArrowIcn:hover {
+	background-color: rgba(255,255,255,0.9);
+}
+
+.rsMercuryContentSliderDefaultInv.rsHor .rsArrowLeft .rsArrowIcn { background-position: -64px -32px; }
+.rsMercuryContentSliderDefaultInv.rsHor .rsArrowRight .rsArrowIcn { background-position: -64px -64px; }
+
+.rsMercuryContentSliderDefaultInv.rsVer .rsArrowLeft .rsArrowIcn { background-position: -96px -32px; }
+.rsMercuryContentSliderDefaultInv.rsVer .rsArrowRight .rsArrowIcn { background-position: -96px -64px; }
+
+.rsMercuryContentSliderDefaultInv .rsArrowDisabled .rsArrowIcn { filter: alpha(opacity=20); opacity: .2; *display: none; }
+
+
+/***************
+*
+*  2. Bullets
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsBullets {
+	position: relative;
+	z-index: 35;
+	padding-top: 4px;
+	width: 100%;
+	height: auto;
+	margin: 0 auto; 
+
+	text-align: center;
+	line-height: 5px;
+	overflow: hidden;
+}
+.rsMercuryContentSliderDefaultInv .rsBullet {
+	width: 5px;
+	height: 5px;
+	display: inline-block;
+	*display:inline; 
+	*zoom:1;
+	padding: 6px;
+}
+.rsMercuryContentSliderDefaultInv .rsBullet span {
+	display: block;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: #BBB;
+}
+.rsMercuryContentSliderDefaultInv .rsBullet.rsNavSelected span {
+	background-color: #000;
+}
+
+
+
+
+
+/***************
+*
+*  3. Thumbnails
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsThumbsHor {
+	width: 100%;
+	height: 72px;
+}
+.rsMercuryContentSliderDefaultInv .rsThumbsVer {
+	width: 96px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.rsMercuryContentSliderDefaultInv.rsWithThumbsHor .rsThumbsContainer {
+	position: relative;
+	height: 100%;
+}
+.rsMercuryContentSliderDefaultInv.rsWithThumbsVer .rsThumbsContainer {
+	position: relative;
+	width: 100%;
+}
+.rsMercuryContentSliderDefaultInv .rsThumb {
+	float: left;
+	overflow: hidden;
+	width: 96px;
+	height: 72px;
+}
+.rsMercuryContentSliderDefaultInv .rsThumb img {
+	width: 100%;
+	height: 100%;
+}
+.rsMercuryContentSliderDefaultInv .rsThumb.rsNavSelected {
+	background: #FFF;
+}
+.rsMercuryContentSliderDefaultInv .rsThumb.rsNavSelected img {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+.rsMercuryContentSliderDefaultInv .rsTmb {
+	display: block;
+}
+
+/* Thumbnails with text */
+.rsMercuryContentSliderDefaultInv .rsTmb h5 {
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+	line-height: 20px;
+}
+.rsMercuryContentSliderDefaultInv .rsTmb span {
+	color: #DDD;
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+	line-height: 18px;
+}
+
+
+
+/* Thumbnails arrow icons */
+.rsMercuryContentSliderDefaultInv .rsThumbsArrow {
+	height: 100%;
+	width: 20px;
+	position: absolute;
+	display: block;
+	cursor: pointer;	
+	z-index: 21;	
+	background: #FFF;
+	background: rgba(255,255,255,0.75);
+}
+.rsMercuryContentSliderDefaultInv .rsThumbsArrow:hover {
+	background: rgba(255,255,255,0.9);
+}
+.rsMercuryContentSliderDefaultInv.rsWithThumbsVer .rsThumbsArrow {
+	width: 100%;
+	height: 20px;
+}
+.rsMercuryContentSliderDefaultInv.rsWithThumbsVer .rsThumbsArrowLeft { top: 0; left: 0; }
+.rsMercuryContentSliderDefaultInv.rsWithThumbsVer .rsThumbsArrowRight { bottom: 0;  left: 0; }
+
+.rsMercuryContentSliderDefaultInv.rsWithThumbsHor .rsThumbsArrowLeft { left: 0; top: 0; }
+.rsMercuryContentSliderDefaultInv.rsWithThumbsHor .rsThumbsArrowRight { right: 0; top:0; }
+
+.rsMercuryContentSliderDefaultInv .rsThumbsArrowIcn {		
+	width: 16px;
+	height: 16px;
+	top: 50%;
+	left: 50%;
+	margin-top:-8px;	
+	margin-left: -8px;
+	position: absolute;	
+	cursor: pointer;	
+	background: url('rs-default-inverted.png');
+}
+
+.rsMercuryContentSliderDefaultInv.rsWithThumbsHor .rsThumbsArrowLeft .rsThumbsArrowIcn { background-position: -128px -32px; }
+.rsMercuryContentSliderDefaultInv.rsWithThumbsHor .rsThumbsArrowRight .rsThumbsArrowIcn { background-position: -128px -48px; }
+
+.rsMercuryContentSliderDefaultInv.rsWithThumbsVer .rsThumbsArrowLeft .rsThumbsArrowIcn { background-position: -144px -32px; }
+.rsMercuryContentSliderDefaultInv.rsWithThumbsVer .rsThumbsArrowRight .rsThumbsArrowIcn { background-position: -144px -48px; }
+
+.rsMercuryContentSliderDefaultInv .rsThumbsArrowDisabled { display: none !important; }
+
+/* Thumbnails resizing on smaller screens */
+@media screen and (min-width: 0px) and (max-width: 800px) {
+	.rsMercuryContentSliderDefaultInv .rsThumb {
+		width: 59px;
+		height: 44px;
+	}
+	.rsMercuryContentSliderDefaultInv .rsThumbsHor {
+		height: 44px;
+	}
+	.rsMercuryContentSliderDefaultInv .rsThumbsVer {
+		width: 59px;
+	}
+}
+
+
+
+
+/***************
+*
+*  4. Tabs
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsTabs {
+	width: auto;
+	height: auto;
+	margin: 0 auto;
+	text-align: center;
+	overflow: hidden;
+	padding-top: 12px;
+	position: relative;
+/*	top: -58px;
+	left: 0;*/
+}
+.rsMercuryContentSliderDefaultInv .rsTab {
+	display: inline-block;
+	cursor: pointer;
+	text-align: center;
+	height: auto;
+	width: auto;
+	color: #fff;
+	padding: 6px 10px 7px;
+	min-width: 62px;
+	text-decoration: none;
+
+	background-color: #99BC39;
+	
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+
+	*display:inline; 
+	*zoom:1;
+
+	text-transform: uppercase;
+	font-size:1.8em;
+	font-weight:400;
+
+	margin-right:5px;
+	margin-bottom:5px;
+}
+.rsMercuryContentSliderDefaultInv .rsTab:first-child {
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+.rsMercuryContentSliderDefaultInv .rsTab:last-child { 
+	-webkit-border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+
+	border-right:  1px solid #cfcfcf;
+}
+.rsMercuryContentSliderDefaultInv .rsTab:active {   
+	background-color: #668f1c;
+	box-shadow:  0 1px 4px rgba(0, 0, 0, 0.2) inset;
+}
+.rsMercuryContentSliderDefaultInv .rsTab.rsNavSelected { 
+	color: #FFF;
+
+	text-shadow: 1px 1px #838383;
+	background: #668f1c;
+}
+
+
+
+
+
+/***************
+*
+*  5. Fullscreen button
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsFullscreenBtn {
+	right: 0;
+	top: 0;
+	width: 44px;
+	height: 44px;
+	z-index: 22;
+	display: block;
+	position: absolute;
+	cursor: pointer;
+	
+}
+.rsMercuryContentSliderDefaultInv .rsFullscreenIcn {
+	display: block;
+	margin: 6px;
+	width: 32px;
+	height: 32px;
+
+	background: url('rs-default-inverted.png') 0 0;
+	background-color: #FFF;
+	background-color: rgba(255,255,255,0.75);
+	*background-color: #FFF;
+	border-radius: 2px;
+
+}
+.rsMercuryContentSliderDefaultInv .rsFullscreenIcn:hover {
+	background-color: rgba(255,255,255,0.9);
+}
+.rsMercuryContentSliderDefaultInv.rsFullscreen .rsFullscreenIcn {
+	background-position: -32px 0;
+}
+
+
+
+
+
+/***************
+*
+*  6. Play/close video button
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsPlayBtn {
+	-webkit-tap-highlight-color:rgba(0,0,0,0.3);
+	width:64px;
+	height:64px;
+	margin-left:-32px;
+	margin-top:-32px;
+	cursor: pointer;
+}
+.rsMercuryContentSliderDefaultInv .rsPlayBtnIcon {
+	width:64px;
+	display:block;
+	height:64px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+	transition: .3s;
+
+	background:url(rs-default-inverted.png) no-repeat 0 -32px;
+	background-color: #FFF;
+	background-color: rgba(255,255,255,0.75);
+	*background-color: #FFF;
+}
+.rsMercuryContentSliderDefaultInv .rsPlayBtn:hover .rsPlayBtnIcon {
+	background-color: rgba(255,255,255,0.9);
+}
+.rsMercuryContentSliderDefaultInv .rsBtnCenterer {
+	position:absolute;
+	left:50%;
+	top:50%;
+	width: 20px;
+	height: 20px;
+}
+.rsMercuryContentSliderDefaultInv .rsCloseVideoBtn {
+	right: 0;
+	top: 0;
+	width: 44px;
+	height: 44px;
+	z-index: 500;
+	position: absolute;
+	cursor: pointer;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateZ(0);
+	
+}
+.rsMercuryContentSliderDefaultInv .rsCloseVideoBtn.rsiOSBtn {
+	top: -38px;
+	right: -6px;
+}
+
+.rsMercuryContentSliderDefaultInv .rsCloseVideoIcn {
+	margin: 6px;
+	width: 32px;
+	height: 32px;
+	background: url('rs-default-inverted.png') -64px 0;
+	background-color: #FFF;
+	background-color: rgba(255,255,255,0.75);
+	*background-color: #FFF;
+}
+.rsMercuryContentSliderDefaultInv .rsCloseVideoIcn:hover {
+	background-color: rgba(255,255,255,0.9);
+}
+
+
+
+/***************
+*
+*  7. Preloader
+*
+****************/
+
+.rsMercuryContentSliderDefaultInv .rsPreloader {
+	width:20px;
+	height:20px;
+	background-image:url(../preloaders/preloader.gif);
+
+	left:50%;
+	top:50%;
+	margin-left:-10px;
+	margin-top:-10px;	
+}
+
+
+
+
+/***************
+*
+*  8. Global caption
+*
+****************/
+.rsMercuryContentSliderDefaultInv .rsGCaption {
+	position: absolute;
+	float: none;
+	bottom: 6px;
+	left: 6px;
+	text-align: left;
+
+	background: #FFF;
+    background: rgba(255,255,255, 0.75);
+
+	color: #000;
+	padding: 2px 8px;
+	width: auto;
+	font-size: 12px;
+	border-radius: 2px;
+}

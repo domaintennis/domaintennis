@@ -1,0 +1,8 @@
+name = Ember Sub
+description = A subtheme of ember, A responsive administration theme.
+base theme = ember
+core = 7.x
+
+; Stylesheets
+;stylesheets[screen][] = styles/normalize.css
+stylesheets[all][] = overrides.css

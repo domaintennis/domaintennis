@@ -1,0 +1,115 @@
+/*
+*	Footer Blocks
+*	Styling of various footer blocks within one file rather than sepearate. 
+*	For positioning css see _l-footer.scsss partial in components/layout-tweaks folder.
+*	For styling of .social-icons button see _social-buttons.scss partial.
+*
+*	Address & Company info block:  	.footer-info
+*	Footer Logo:					.footer-logo
+*	Footer strapline:				.footer-strapline-text
+*/
+
+
+.l-footer-wrap {
+	text-align: center;
+
+	background:black;
+	
+	@include breakpoint($tab,true){ text-align: left;}
+}
+
+
+
+.footer-info {
+	
+	//Font Styling
+	@include adjust-font-size-to(13px);
+	@include adjust-leading-to(0.9,13px);
+
+}
+
+.block-footer-logo {
+	@include margin-trailer(1);
+	
+	@include breakpoint($tab,true){ @include margin-trailer(0);}
+}
+
+.footer-strapline-text {
+	
+	//Font Styling
+	@include adjust-font-size-to(11px);
+	@include adjust-leading-to(0.9,11px);
+	
+	text-align: center;
+	
+	@include breakpoint($tab,true){text-align: left;}
+
+}
+
+
+.l-footer-strapline {
+	@include rhythm(0,1,0,0);
+
+	.block--easy-social {
+		float:none;
+		
+		@include breakpoint($tab,true){float:right;}
+	}
+	.footer-strapline-text {
+		display: block;
+		float:none;
+		
+		@include breakpoint($tab,true){float:left;}
+	}
+}
+
+.block-footer-contact-info {
+	padding:$vert-spacing-unit*2 0;
+
+	.block__content {
+		color:white;
+		@include clearfix;
+		
+
+		@include breakpoint($tab,true) { 
+					
+					@include adjust-font-size-to(14px, 1);
+
+		}
+
+		@include breakpoint($desk,true) { 
+					
+					@include adjust-font-size-to(18px, 1);
+
+		}		
+
+		text-align:center;
+	
+	}
+
+	.footer-contact-left {
+
+		@include breakpoint($tab,true) { 
+				text-align: left;
+				float:left;
+	
+		}
+	}
+	.footer-contact-right {
+
+		@include breakpoint($tab,true) { 
+				text-align: left;	
+				float:left;
+				margin-left:$horz-spacing-unit;
+	
+		}
+	}
+}
+
+.block-sponsors-logos {
+	text-align:center;
+	img {
+		vertical-align: middle;
+		padding:20px;
+	}
+}

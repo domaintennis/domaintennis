@@ -1,0 +1,61 @@
+/*
+*	Spacing and Position States
+*	State classes for position, spacing (margins & padding), display (block, 
+*	inline-block, 	inline).
+*
+*/
+
+
+//No Padding
+.has-nopad {
+	padding:0;
+	.block__content {
+		padding:0;
+	}
+}
+
+.has-nomarg, .block.has-nomarg, .block.has-nopad.has-nomarg {
+	@include margin-trailer(0);
+}
+
+//Has padding on mobiles only
+.has-nopad.has-mobile-pad, .has-nopad.has-mobile-pad .block__content {
+	padding-left:$vert-spacing-unit/2;
+	padding-right:$vert-spacing-unit/2;
+	@include rhythm(0,0.5,0.5,0);
+	
+	//Remove padding for tablet & above
+	@include breakpoint($tab,true) {
+		padding:0;
+	}
+}
+
+.has-nopad.has-mob-horz-pad, .has-nopad.has-mob-horz-pad .block__content {
+	padding-left:$vert-spacing-unit/2;
+	padding-right:$vert-spacing-unit/2;
+	@include rhythm(0,0,0,0);
+	
+	//Remove padding for tablet & above
+	@include breakpoint($tab,true) {
+		padding:0;
+	}
+}
+
+.block.has-nopad.has-mob-pad-nomarg, .has-nopad.has-mob-pad-nomarg {
+	@include rhythm(0,0,0,0);
+	
+	//Remove padding for tablet & above
+	@include breakpoint($tab,true) {
+		@include margin-trailer(1);
+	}
+}
+
+.block.has-nopad {
+	@include rhythm(0,0,0,1);
+}
+
+//Inline Blocks
+.is-inline-block {
+	display:inline-block;
+}
+

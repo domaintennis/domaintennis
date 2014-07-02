@@ -1,0 +1,84 @@
+/*
+*	Titlebox
+*	The titlebox strap runs along the bottom of the header. It is not 
+*	displayed on the frontpage.
+*
+*	Container name: .l-titlebox 
+*/
+
+
+///////////////////////////////////////////////////////////
+//// TITLE BAR (WRAPPER)
+///////////////////////////////////////////////////////////
+
+.l-titlebar {	
+	//Colors
+	background:$blue-light;
+	
+	//Override
+	.l-container {
+		padding:0;
+	}
+}
+
+
+
+
+///////////////////////////////////////////////////////////
+//// TITLE BOX STANDARD
+///////////////////////////////////////////////////////////
+
+.l-titlebox {
+	
+	//Spacing
+	@include rhythm(0,1,1,0);
+	@include apply-side-rhythm-border(left,0px,1.5);
+	@include apply-side-rhythm-border(right,0px,1);
+	
+
+	
+	h1 {
+		
+		//Font Styling
+		@include adjust-font-size-to(40px);
+
+		//Spacing
+		@include rhythm(0,0,0,0);
+		
+		//Colors
+		color:#ffffff;
+		
+	}
+}
+
+
+.l-titlebox.l-has-sidebar {
+
+	//Spacing
+	@include rhythm(0,1,0,0);
+	
+	@include breakpoint($tab,true) {
+
+		//Spacing
+		@include rhythm(0,1,1,0);
+	}
+
+}
+
+.l-titlebox-right {
+	
+	//Spacing
+	@include rhythm(0,0,1,0);
+	@include apply-side-rhythm-border(left,0px,1.5);
+	@include apply-side-rhythm-border(right,0px,1);
+	
+	@include breakpoint($tab,true) {
+
+		//Spacing
+		@include rhythm(0,1,1,0);
+		@include apply-side-rhythm-border(left,0px,0);
+	}
+
+}
+
+

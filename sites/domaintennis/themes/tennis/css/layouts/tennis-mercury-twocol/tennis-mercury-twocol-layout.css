@@ -1,0 +1,338 @@
+/*******************************************************************************
+ * _layout.scss
+ *
+ * Styling of the "simple" layout demonstrating the Compass grid extension Susy
+ * and building mobile first layouts.
+ ******************************************************************************/
+/**
+ * $ISLAND
+ */
+/**
+ * $ARROW
+ */
+/**
+ * $HLIST
+ */
+.l-constrained {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.l-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.l-container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media (min-width: 44em) {
+  .l-container {
+    border-left-style: border-style;
+    border-left-width: 0em;
+    padding-left: 0.6875em;
+    border-right-style: border-style;
+    border-right-width: 0em;
+    padding-right: 0.6875em;
+  }
+}
+
+.l-container.l-container-overwidth {
+  max-width: 1600px;
+  padding: 0;
+}
+
+.l-container.l-container-fullwidth {
+  max-width: 100%;
+  padding: 0;
+}
+
+.l-header-wrap {
+  position: relative;
+}
+.l-header-wrap:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.l-header-right {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-header-right {
+    width: 100%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-header-right {
+    width: 71.83099%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-branding {
+  z-index: 30;
+  position: absolute;
+  top: 31.2px;
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-branding {
+    width: 14.89362%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+    top: 40.8px;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-branding {
+    width: 9.85915%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-banner {
+  min-height: 192px;
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+.l-banner .l-container {
+  padding: 0;
+}
+@media (min-width: 44em) {
+  .l-banner {
+    width: 48.93617%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-banner {
+    width: 32.39437%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 44em) {
+  .l-nav {
+    width: 48.93617%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+    max-width: 1200px;
+    z-index: 31;
+    position: absolute;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-nav {
+    width: 32.39437%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-content-wrap {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-content-wrap {
+    width: 31.91489%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 17.02128%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-content-wrap {
+    width: 21.12676%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 11.26761%;
+    clear: none;
+  }
+}
+
+.l-sidebar-first {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-sidebar-first {
+    width: 14.89362%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-sidebar-first {
+    width: 9.85915%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-titlebox.l-has-sidebar {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-titlebox.l-has-sidebar {
+    width: 65.95745%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-titlebox.l-has-sidebar {
+    width: 66.19718%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-titlebox-right {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-titlebox-right {
+    width: 31.91489%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-titlebox-right {
+    width: 32.39437%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+.l-footer:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.l-footer-first {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-footer-first {
+    width: 14.89362%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-footer-first {
+    width: 9.85915%;
+    float: left;
+    margin-right: -100%;
+    margin-left: 0%;
+    clear: none;
+  }
+}
+
+.l-footer-second {
+  width: 100%;
+  float: right;
+  margin-left: 0;
+  margin-right: 0;
+  clear: none;
+}
+@media (min-width: 44em) {
+  .l-footer-second {
+    width: 65.21739%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .l-footer-second {
+    width: 65.21739%;
+    float: right;
+    margin-left: 0;
+    margin-right: 0;
+    clear: none;
+  }
+}

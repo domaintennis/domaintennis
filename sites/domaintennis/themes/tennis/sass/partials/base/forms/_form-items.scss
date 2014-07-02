@@ -1,0 +1,156 @@
+/**
+ * $FORM-ITEM
+ */
+.form-item {
+  color: $mid-grey;
+
+  label {
+    margin-bottom: 0.4em;
+  }
+  .form-select,
+  .form-text,
+  .form-textarea {
+    width: 100%;
+    padding: 0.4em 0.6em;
+    background-color: #FFF;
+    //border: 1px solid $light-grey;
+    color: $mid-grey;
+    vertical-align: middle;
+    @include adjust-font-size-to(13px);
+    
+  }
+  .description {
+    margin-top: 0.2em;
+    font-style: italic;
+  }
+  .form-select {
+    padding: 0;
+  }
+  .form-textarea {
+    resize:none;
+
+  }
+    div.grippie {
+      display: none;
+    }
+}
+
+.container-inline {
+  .form-select,
+  .form-text,
+  .form-textarea {
+    width: auto;
+  }
+}
+
+select,
+input,
+textarea {
+  &:focus {
+    @include box-shadow(0 0 4px 1px rgba(lighten($orange, 15%), 0.3));
+    //border: 1px solid lighten($orange, 15%);
+    color:#000000;
+  }
+}
+
+
+.webform-container-inline.webform-datepicker {
+  display:block;
+  .form-item {
+      width:25%;
+      display: inline-block;
+      //margin-right:3%;
+
+      padding:0;
+  
+      .form-select {
+       max-width: 100% !important;       
+      }
+
+    @include breakpoint($tab,true) {width:15%;}
+    @include breakpoint($desk,true) {width:10%;}
+  }
+
+}
+
+
+.webform-component-webform_time .webform-container-inline {
+  display:block;
+  .form-item {
+      width:25%;
+      display: inline-block;
+      //margin-right:3%;
+
+      padding:0;
+  
+      .form-select {
+       max-width: 100% !important;       
+      }
+
+    @include breakpoint($tab,true) {width:15%;}
+    @include breakpoint($desk,true) {width:10%;}
+  }
+}
+
+.webform-component-webform_time .webform-container-inline .form-item-submitted-booking-date-time-time-court-s-are-required-ampm {
+  width:10%;
+
+    @include breakpoint($tab,true) {width:12%;}
+    @include breakpoint($desk,true) {width:8%;}
+
+    label {
+      margin-right:0;
+    }
+}
+
+#edit-submitted-completion-date {
+    display: block;
+    font-weight:300;
+    @include adjust-font-size-to(13px);  
+}
+
+.chosen-container {
+  max-width:100%;
+}
+
+/* ENQUIRY FORM ====================================================== */
+#block-webform-client-block-141 .content {padding: 30px 30px 30px 100px;}
+
+.webform-client-form {
+  margin-bottom:30px;
+  font-size:1em;
+  font-family:"Lucida Grande", "Verdana", arial, sans-serif;
+  width:100%;
+  padding:5% 2.5% 5%;
+  background:#f4f4f4;
+  border:1px solid #dddddd;
+}
+
+
+
+/* labels ===== */
+.webform-container-inline label {
+    display: inline-block;
+    margin-right: 1em;
+    width: 50%;
+}
+
+#webform-component-your-enquiry--preferred-contact-method label {
+  width:50%;
+}
+
+.webform-client-form label.option {
+  width:auto;
+}
+
+
+
+.webform-client-form .form-text {
+  width:100%;
+
+  @include breakpoint($tab,true) { 
+        
+        width:60%;
+
+  }
+}

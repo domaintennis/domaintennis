@@ -1,0 +1,49 @@
+/*
+*	Standard Page Banner
+*	Theming for flexslider banner on standard pages.
+*
+*	Class type: .class-name
+*	Class type:	.class-name
+*/
+
+
+.banner-controls {
+	background:#000000;
+	@include inline-block-list-container;
+	li {
+		@include inline-block-list-item();
+		cursor: pointer;
+		margin-top:3px;
+	}
+	
+	margin-bottom:$vert-spacing-unit;
+}
+
+.block-standardpage-banner .flexslider {
+	background:#000000;
+	color:#ffffff;
+	@include border-radius(0);
+	
+	.field--name-field-caption  {
+		@include rhythm(0,0.2,0.2,0);
+		@include apply-side-rhythm-border(left,0px,0.4);
+		@include apply-side-rhythm-border(right,0px,0.4);
+	
+		
+	}
+
+	.views-field-field-banner-image .content {
+		position: relative;
+	}
+	
+	.views-field-field-banner-image .field--name-field-caption {
+		position: absolute;
+		bottom:0;
+		background: #000000;
+		background: rgba(0,0,0,0.5);
+		
+	}
+	
+	
+
+}

@@ -1,0 +1,4 @@
+/*Hide duplicate Add to latest news link*/
+.flag-outer-latest-news{
+    display: none;
+}

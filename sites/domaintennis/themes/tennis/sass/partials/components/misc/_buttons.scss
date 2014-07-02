@@ -1,0 +1,148 @@
+.link-block {
+	display:block;
+	text-decoration: none;
+	text-transform:uppercase;
+}
+
+.link-inline-block {
+	display:inline-block;
+	text-decoration: none;
+	text-transform:uppercase;
+}
+
+.link-red {
+	background:$red;
+	@include background-image(linear-gradient($red, darken($red,10%))); 
+}
+
+a.link-red:hover {
+	background:darken($red,10%);
+	@include background-image(linear-gradient(lighten($red,5%), darken($red,5%))); 
+}
+
+.rounded {
+	@include border-radius(5px);
+}
+
+.rounded-top {
+	@include border-radius(5px 5px 0 0);
+}
+
+
+///////////////////////////////////////////////////////////
+//// BUTTONS
+///////////////////////////////////////////////////////////
+
+.button, .button:visited {
+	@include background-image(linear-gradient($grey-light, $grey-dark));
+	font-family:$body-font;
+	font-weight: 400;
+	text-transform: uppercase;
+	text-align: center;
+	text-decoration: none;
+	@include border-radius(5px);
+	color:#ffffff;
+	border:none;
+}
+
+.button:hover {
+	color:#ffffff;
+	@include background-image(linear-gradient(darken($grey-light,10%), darken($grey-dark,10%)));
+}
+
+.button-block {
+	display: block;
+	@include rhythm(0.5,0.3,0.3,0.5);
+	@include apply-side-rhythm-border(left,0px,1,1em,solid);
+	@include apply-side-rhythm-border(right,0px,1,1em,solid);
+}
+
+.button-inline-block {
+	display: inline-block;
+	@include rhythm(0,0.3,0.3,0);
+	@include apply-side-rhythm-border(left,0px,1,1em,solid);
+	@include apply-side-rhythm-border(right,0px,1,1em,solid);
+}
+.button-inline-block-vertical-margin {
+	@include rhythm(0.3,0.3,0.3,0.3);
+}
+
+.button-large {
+	@include adjust-font-size-to(24px);
+	@include adjust-leading-to(1,24px);
+}
+
+.button-small {
+	@include adjust-font-size-to(18px);
+	@include adjust-leading-to(1,18px);
+}
+
+.button-blue {
+	color:#ffffff;
+	background:$blue-mid;
+	@include background-image(linear-gradient($blue-mid, $blue-dark));
+}
+.button-blue:hover {
+	color:#ffffff;
+	background:$blue-dark;
+	@include background-image(linear-gradient(darken($blue-mid,10%), darken($blue-dark,10%)));
+}
+
+.button-red {
+	color:#ffffff;
+	@include background-image(linear-gradient($red, darken($red,10%)));
+}
+.button-red:hover {
+	color:#ffffff;
+	@include background-image(linear-gradient(darken($red,10%), darken($red,15%)));
+}
+
+.button-light-grey {
+	color:#333333;
+	background:$lightest-grey;
+	@include background-image(linear-gradient($lightest-grey, darken($lightest-grey,10%)));
+}
+.button-light-grey:hover {
+	color:#333333;
+	background:darken($lightest-grey,10%);
+	@include background-image(linear-gradient(darken($lightest-grey,10%), darken($lightest-grey,15%)));
+}
+
+
+.button-blue-halfgradient {
+  @include background-image(linear-gradient(darken($blue-mid,5%), darken($blue-mid,5%) 49%, darken($blue-mid,9%) 50%, darken($blue-mid,9%))); 
+  }
+.button-blue-halfgradient:hover {
+  @include background-image(linear-gradient(darken($blue-mid,7%), darken($blue-mid,7%) 49%, darken($blue-mid,11%) 50%, darken($blue-mid,11%))); 
+  }
+
+.button-red-halfgradient {
+  @include background-image(linear-gradient(darken($red,5%), darken($red,5%) 49%, darken($red,9%) 50%, darken($red,9%))); 
+  }
+.button-red-halfgradient:hover {
+  @include background-image(linear-gradient(darken($red,7%), darken($red,7%) 49%, darken($red,11%) 50%, darken($red,11%))); 
+  }
+
+.button-grey-halfgradient {
+  @include background-image(linear-gradient(darken($grey,5%), darken($grey,5%) 49%, darken($grey,9%) 50%, darken($grey,9%))); 
+  }
+.button-grey-halfgradient:hover {
+  @include background-image(linear-gradient(darken($grey,9%), darken($grey,9%) 49%, darken($grey,13%) 50%, darken($grey,13%))); 
+  }
+
+
+.button-first-element {
+	margin-top:0;
+}
+
+
+span.edit-button a {
+	@extend .button;
+	@extend .button-inline-block;
+	@extend .button-grey-halfgradient;
+	@extend .button-inline-block-vertical-margin;
+}
+
+.flexslider span.edit-button a {
+	margin-left:$vert-spacing-unit;
+}

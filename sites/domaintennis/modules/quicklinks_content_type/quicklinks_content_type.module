@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Quicklinks Content Type feature.
+ */
+
+include_once 'quicklinks_content_type.features.inc';

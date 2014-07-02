@@ -1,0 +1,69 @@
+/*
+*	Book Now Mobile
+*	Styling for book now button in header on mobiles.
+*
+*	Block Class: 	.block-booknow-mobile
+*	State Classes: 	.is-inline-block
+*/
+
+
+.block-booknow-mobile {
+
+		display: inline-block;
+		
+		//Position
+		position: absolute;
+		top:0;
+		right:0;
+		
+		z-index: 100;
+	
+	
+	//Hide for tablets
+	@include breakpoint($tab,true){
+		display:none;
+	}
+	
+	.block__content  {
+
+		// TOGGLE BUTTON
+		a.button-midblue {
+			display: block;	
+			
+			
+			background:transparent;
+			border:none;
+			@include rhythm(0,0.6,0.7,0);
+			@include adjust-font-size-to(15px);
+			@include adjust-leading-to(1,15px);
+			text-decoration: none;
+			color:#ffffff;
+			@include apply-side-rhythm-border(left,2px,0.5,15px);
+			@include apply-side-rhythm-border(right,0px,0.5,15px);
+			
+			//Colors
+			border-color:darken($blue-mid,5%);
+			
+			//Font Styling
+			font-family:$header-font;
+			font-weight:300;
+			text-transform: none;
+			
+			//Box Styling
+			@include border-radius(0px);
+			
+		}
+		a:hover {
+			text-decoration: none;
+			background:darken($blue-mid,5%);
+		}
+		a.sf-expanded {
+			background:transparent;
+			font-weight:300;
+		}
+	}
+}
+
+
+
+

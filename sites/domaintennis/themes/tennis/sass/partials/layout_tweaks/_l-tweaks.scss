@@ -1,0 +1,15 @@
+
+
+.l-main-wrap {
+
+	.l-container {
+		@include leading-border(0px, 2);
+		@include trailing-border(0px, 2);
+		padding-left:$horz-spacing-unit;
+		padding-right:$horz-spacing-unit;
+	}
+}
+
+.l-branding-wrap {
+	background:#000000;
+}

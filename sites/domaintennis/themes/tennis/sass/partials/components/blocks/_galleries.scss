@@ -1,0 +1,58 @@
+.section-photo-board .view-galleries {
+	.view-content {
+		@include clearfix;
+	}
+	.views-row {
+				margin-bottom:5%;
+			@include breakpoint($tab,true) { 
+						
+				float:left;
+				margin-right:5%;					
+				max-width:47%;
+				min-width:47%;			
+		
+			}
+	}
+	.views-row.views-row-even {
+			@include breakpoint($tab,true) { 
+						
+				margin-right:0;		
+		
+			}
+	}
+
+
+}
+
+.node-type-gallery {
+	.field--name-body {
+		margin-bottom:$vert-spacing-unit/2;
+	}
+
+	.field--name-field-gallery-images {
+			@include clearfix;
+		.field__items {
+			@include clearfix;
+		}
+		.field-item {
+				margin-bottom:5%;
+			@include breakpoint($tab,true) { 
+						
+				float:left;
+				margin-right:5%;						
+				max-width:47%;
+				min-width:47%;
+						
+		
+			}
+		}
+		.field-item.odd {
+			@include breakpoint($tab,true) { 
+						
+				margin-right:0;
+						
+		
+			}			
+		}
+	}
+}

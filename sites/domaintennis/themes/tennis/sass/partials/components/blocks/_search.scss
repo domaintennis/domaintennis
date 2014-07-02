@@ -1,0 +1,76 @@
+/*
+*	Search block
+*	Styling the default Drupal search block.  The submit button icon is styled in _buttons.scss
+*
+*	Block class: .block--search
+*	Form class: .search-block-form
+*/
+
+.block--search.is-active {
+	background:darken($blue-dark,20%);
+	.button-search-submit-icon:hover {
+		background:darken($blue-dark,15%);
+	}
+}
+
+.block--search {
+	@include rhythm(0,0,0,0.5);
+}
+
+.block--search, .search-form {
+	@include border-radius(5px);
+
+	//Pad it out...
+	.block__content {
+    	
+		@include rhythm(0,0.2,0.2,0);
+		@include apply-side-rhythm-border(left,0px,0.2);
+		@include apply-side-rhythm-border(right,0px,0.2);
+	}
+	
+	//Hide the default search element because we have created a new button with fontawesome icon.
+	.search-block-form input.form-submit {
+	display: none;
+	}
+
+	//Text Field
+	.form-text {
+		@include rhythm(0,0.1,0.1,0);
+		@include apply-side-rhythm-border(left,0px,0.3);
+		@include apply-side-rhythm-border(right,0px,0.3);
+		@include border-radius(3px);
+	}
+	.button-search-submit-icon {display:none;}
+	.button-search-submit-icon, span.search-form-toggle {
+		background:transparent;
+		border:none;
+		@include border-radius(3px);
+		@include rhythm(0,0.1,0.2,0);
+		@include apply-side-rhythm-border(left,0px,0.3);
+		@include apply-side-rhythm-border(right,0px,0.3);
+		@include adjust-font-size-to(18px);
+		@include adjust-leading-to(1,18px);
+	}
+	span.search-form-toggle:hover {
+		background:darken($blue-dark,20%);
+		cursor: pointer;
+	}
+}
+//The submit button icon is styled in _buttons.scss
+
+.block--search:hover {
+	//Text Field
+	.form-text {
+		//display: inline-block;
+	}
+}
+
+.block--search.is-reversed {
+	.button-search-submit-icon {
+			color:#ffffff;
+			}
+}
+
+.l-header-right .block--search .form-text {
+			display: none;
+}

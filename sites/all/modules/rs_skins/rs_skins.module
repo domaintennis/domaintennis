@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file rs_skins.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * Implements hook_royalslider_skins_alter().
+ */
+function rs_skins_royalslider_skins_alter(&$skins) {
+  $skins['fullwidth-default'] = array(
+    'name' => t('Fullwidth (rsDefault)'),
+    'class' => 'rsFullwidth',
+    // Your CSS should live in the royalslider/skins/my-awesome-skin folder
+    // and be named rs-my-awesome-skin.css.
+  );
+  $skins['imagegallery-default'] = array(
+    'name' => t('Image Gallery (rsDefault)'),
+    'class' => 'rsImageGallery',
+    // Your CSS should live in the royalslider/skins/my-awesome-skin folder
+    // and be named rs-my-awesome-skin.css.
+  );
+  $skins['mercury-fullwidth'] = array(
+    'name' => t('Mercury Fullwidth'),
+    'class' => 'rsMercury',
+    // Your CSS should live in the royalslider/skins/my-awesome-skin folder
+    // and be named rs-my-awesome-skin.css.
+  );
+  $skins['content-slider-default'] = array(
+    'name' => t('Content Slider (rsDefault)'),
+    'class' => 'rsContentSlider',
+    // Your CSS should live in the royalslider/skins/my-awesome-skin folder
+    // and be named rs-my-awesome-skin.css.
+  );
+  $skins['content-slider-default-inverted'] = array(
+    'name' => t('Content Slider (rsDefault Inverted)'),
+    'class' => 'rsContentSliderDefaultInv',
+    // Your CSS should live in the royalslider/skins/my-awesome-skin folder
+    // and be named rs-my-awesome-skin.css.
+  ); 
+  $skins['mercury-content-slider-default-inverted'] = array(
+    'name' => t('Mercury Content Slider (rsDefault Inverted)'),
+    'class' => 'rsMercuryContentSliderDefaultInv',
+    // Your CSS should live in the royalslider/skins/my-awesome-skin folder
+    // and be named rs-my-awesome-skin.css.
+  ); 
+}
