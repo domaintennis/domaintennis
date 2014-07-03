@@ -1,5 +1,8 @@
 # Ignore configuration files that may contain sensitive information.
-sites/*/settings*.php
+#
+# Commenting settings.php out as have setuping env project: https://www.drupal.org/project/env
+#
+# sites/*/settings*.php
 
 
 # Ignore paths that contain user-generated content.
