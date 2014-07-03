@@ -32,13 +32,11 @@ interface EditEditorSelectorInterface {
    *
    * @param array $editor_ids
    *   A list of all in-place editor IDs that should be attached.
-   * @param array $metadata
-   *   Metadata as returned by EditMetadataGenerator::generate().
    *
    * @return array
    *   An array of attachments, for use with #attached.
    *
    * @see drupal_process_attached()
    */
-  public function getEditorAttachments(array $editor_ids, array $metadata);
+  public function getEditorAttachments(array $editor_ids);
 }

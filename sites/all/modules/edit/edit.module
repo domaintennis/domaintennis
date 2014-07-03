@@ -26,6 +26,12 @@ function edit_menu() {
     'access arguments' => array('access in-place editing'),
     'page callback' => 'edit_metadata',
     'file' => 'includes/pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['edit/attachments'] = array(
+    'access arguments' => array('access in-place editing'),
+    'page callback' => 'edit_attachments',
+    'file' => 'includes/pages.inc',
     'delivery callback' => 'ajax_deliver',
     'theme callback' => 'ajax_base_page_theme',
     'type' => MENU_CALLBACK,
@@ -34,6 +40,15 @@ function edit_menu() {
     'access arguments' => array('access in-place editing'),
     'page callback' => 'edit_field_edit',
     'page arguments' => array(2, 3, 4, 5, 6),
+    'file' => 'includes/pages.inc',
+    'delivery callback' => 'ajax_deliver',
+    'theme callback' => 'ajax_base_page_theme',
+    'type' => MENU_CALLBACK,
+  );
+  $items['edit/entity/%/%'] = array(
+    'access arguments' => array('access in-place editing'),
+    'page callback' => 'edit_entity_save',
+    'page arguments' => array(2, 3),
     'file' => 'includes/pages.inc',
     'delivery callback' => 'ajax_deliver',
     'theme callback' => 'ajax_base_page_theme',
@@ -64,12 +79,67 @@ function edit_permission() {
 }
 
 /**
+ * Implements hook_page_build().
+ *
+ * Adds the edit library to the page for any user who has the 'access in-place
+ * editing' permission.
+ */
+function edit_page_build(&$page) {
+  if (!user_access('access in-place editing')) {
+    return;
+  }
+
+  // In-place editing is only supported on the front-end.
+  if (path_is_admin(current_path())) {
+    return;
+  }
+
+  // Abuse the 'page_top' region for attaching our libraries.
+  $page['page_top']['#attached']['library'][] = array('edit', 'edit');
+
+  // Certain themes don't add region wrappers, so we can't assume region
+  // wrappers are present. Therefore, Edit must inject its own alternative:
+  // start and end markers for the "content" region.
+  $page['content']['#theme_wrappers'][] = 'edit_wrap_content_region';
+
+  // Provide the user ID and permissions hash in Drupal.settings to allow
+  // JavaScript code to maintain client-side caches.
+  // @see Drupal 8's user_page_build()
+  // @see Drupal 8's \Drupal\user\PermissionsHash
+  // @see https://drupal.org/node/2005644
+  global $user;
+  $roles = array_keys($user->roles);
+  $serialized_roles = implode(',', $roles);
+  if ($cache = cache_get("edit_user_permissions_hash:$serialized_roles", 'cache_page')) {
+    $permissions_hash = $cache->data;
+  }
+  else {
+    $permissions_hash = hash('sha256', drupal_get_hash_salt() . serialize(user_role_permissions($user->roles)));
+    // Use the 'cache_page' bin along with CACHE_TEMPORARY, because the submit
+    // callback for the form responsible for changing user permissions calls
+    // cache_clear_all() without arguments, which clears the page cache, and
+    // hence it will also clear this cache entry.
+    cache_set("edit_user_permissions_hash:$serialized_roles", $permissions_hash, 'cache_page', CACHE_TEMPORARY);
+  }
+  $page['page_top']['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array('edit' => array('user' => array(
+      'uid' => $user->uid,
+      'permissionsHash' => $permissions_hash,
+    ))),
+  );
+}
+
+/**
  * Implements hook_theme().
  */
 function edit_theme() {
   return array(
+    'edit_wrap_content_region' => array(
+      'render element' => 'element',
+    ),
     'edit_wrap_field' => array(
-      'variables' => array('value' => NULL, 'edit_id' => NULL),
+      'variables' => array('value' => NULL, 'edit_field_id' => NULL),
     ),
   );
 }
@@ -81,7 +151,6 @@ function edit_library() {
   $path = drupal_get_path('module', 'edit');
   $options = array(
     'scope' => 'footer',
-    array('weight' => 1),
   );
   $libraries['edit'] = array(
     'title' => 'Edit: in-place editing',
@@ -89,34 +158,35 @@ function edit_library() {
     'version' => VERSION,
     'js' => array(
       // Core.
-      $path . '/js/app.js' => $options,
-      $path . '/js/edit.js' => array('weight' => 2) + $options,
-      // Routers.
-      $path . '/js/routers/edit-router.js' => $options,
-      // Models.
-      $path . '/js/models/edit-app-model.js' => $options,
-      // Views.
-      $path . '/js/views/propertyeditordecoration-view.js' => $options,
-      $path . '/js/views/menu-view.js' => $options,
-      $path . '/js/views/modal-view.js' => $options,
-      $path . '/js/views/overlay-view.js' => $options,
-      $path . '/js/views/toolbar-view.js' => $options,
-      // Backbone.sync implementation on top of Drupal forms.
-      $path . '/js/backbone.drupalform.js' => $options,
-      // VIE service.
-      $path . '/js/viejs/EditService.js' => $options,
-      // Create.js subclasses.
-      $path . '/js/createjs/editable.js' => $options,
-      $path . '/js/createjs/storage.js' => $options,
-      // Other.
+      $path . '/js/edit.js' => $options,
       $path . '/js/util.js' => $options,
+      // Models.
+      $path . '/js/models/BaseModel.js' => $options,
+      $path . '/js/models/AppModel.js' => $options,
+      $path . '/js/models/EntityModel.js' => $options,
+      $path . '/js/models/FieldModel.js' => $options,
+      $path . '/js/models/EditorModel.js' => $options,
+      // Views.
+      $path . '/js/views/AppView.js' => $options,
+      $path . '/js/views/FieldDecorationView.js' => $options,
+      $path . '/js/views/EntityDecorationView.js' => $options,
+      $path . '/js/views/EntityToolbarView.js' => $options,
+      $path . '/js/views/ContextualLinkView.js' => $options,
+      $path . '/js/views/FieldToolbarView.js' => $options,
+      $path . '/js/views/EditorView.js' => $options,
+      $path . '/js/views/ModalView.js' => $options,
+      // Other.
       $path . '/js/theme.js' => $options,
+      // Monkey-patch in jQuery UI 1.10 Position at $.fn.position_edit.
+      $path . '/js/jquery/ducktape.position.js' => $options,
       // Basic settings.
       array(
         'data' => array(
           'edit' => array(
             'metadataURL' => url('edit/metadata'),
+            'attachmentsURL' => url('edit/attachments'),
             'fieldFormURL' => url('edit/form/!entity_type/!id/!field_name/!langcode/!view_mode'),
+            'entitySaveURL' => url('edit/entity/!entity_type/!id'),
             'rerenderProcessedTextURL' => url('edit/text/!entity_type/!id/!field_name/!langcode/!view_mode'),
             'context' => 'body',
           )
@@ -125,35 +195,37 @@ function edit_library() {
       ),
     ),
     'css' => array(
-      $path . '/css/edit.css' => array(),
+      $path . '/css/contextual-zindex-fix-1102156.css' => array(),
+      $path . '/css/edit.module.css' => array(),
+      $path . '/css/edit.theme.css' => array(),
+      $path . '/css/edit.icons.css' => array(),
     ),
     'dependencies' => array(
       array('system', 'jquery'),
       array('edit', 'underscore'),
       array('edit', 'backbone'),
-      array('edit', 'vie.core'),
-      array('edit', 'create.editonly'),
       array('system', 'jquery.form'),
+      array('system', 'ui.position'),
       array('system', 'drupal.form'),
       array('system', 'drupal.ajax'),
     ),
   );
 
-  $libraries['edit.editorWidget.form'] = array(
-    'title' => '"Form" Create.js PropertyEditor widget',
+  $libraries['edit.inPlaceEditor.form'] = array(
+    'title' => 'Form in-place editor',
     'version' => VERSION,
     'js' => array(
-      $path . '/js/createjs/editingWidgets/formwidget.js' => $options,
+      $path . '/js/editors/formEditor.js' => $options,
     ),
     'dependencies' => array(
       array('edit', 'edit'),
     ),
   );
-  $libraries['edit.editorWidget.direct'] = array(
-    'title' => '"Direct" Create.js PropertyEditor widget',
+  $libraries['edit.inPlaceEditor.plainText'] = array(
+    'title' => 'Plain text in-place editor',
     'version' => VERSION,
     'js' => array(
-      $path . '/js/createjs/editingWidgets/drupalcontenteditablewidget.js' => $options,
+      $path . '/js/editors/plainTextEditor.js' => $options,
     ),
     'dependencies' => array(
       array('edit', 'edit'),
@@ -161,11 +233,11 @@ function edit_library() {
   );
 
   if (module_exists('ckeditor')) {
-    $libraries['edit.editorWidget.ckeditor'] = array(
-      'title' => '"CKEditor" Create.js PropertyEditor widget',
+    $libraries['edit.inPlaceEditor.ckeditor'] = array(
+      'title' => 'CKEditor formatted text in-place editor',
       'version' => VERSION,
       'js' => array(
-        $path . '/js/createjs/editingWidgets/drupalckeditorwidget.js' => array('weight' => 3) + $options,
+        $path . '/js/editors/formattedTextEditor.js' => array('weight' => 3) + $options,
         array(
           'type' => 'setting',
           'data' => array(
@@ -187,76 +259,19 @@ function edit_library() {
     );
   }
 
-  $libraries['create.editonly'] = array(
-    'title' => 'CreateJS and deps',
-    'website' => 'http://createjs.org',
-    'version' => NULL,
-    'js' => array(
-      $path . '/vendor/create/create-editonly.js' => array( /*'defer' => TRUE*/),
-    ),
-    'dependencies' => array(
-      array('system', 'ui.widget'),
-      array('edit', 'vie.core'),
-    ),
-  );
+  module_load_include('inc', 'edit', 'includes/libraries');
 
-  $libraries['vie.core'] = array(
-    'title' => 'Vienna IKS Editables',
-    'website' => 'http://wiki.iks-project.eu/index.php/VIE',
-    'version' => '2.0',
-    'js' => array(
-      $path . '/vendor/vie/vie-core.js' => array( /*'defer' => TRUE*/),
-    ),
-    'dependencies' => array(
-      array('edit', 'backbone'),
-    ),
-  );
+  $libraries['underscore'] = _edit_convert_libraries_to_library(libraries_detect('underscore'), array(
+    'group' => JS_LIBRARY,
+    'weight' => -20,
+  ));
 
-  // Register underscore as a library.
-  $libraries['underscore'] = array(
-    'title' => 'Underscore.js',
-    'website' => 'http://underscorejs.org',
-    'version' => '1.4.2',
-    'js' => array(
-      $path . '/vendor/underscore/underscore.js' => array(),
-    ),
-  );
-
-  // Register backbone as a library.
-  $libraries['backbone'] = array(
-    'title' => 'Backbone.js',
-    'website' => 'http://backbonejs.org',
-    'version' => '0.9.2',
-    'js' => array(
-      $path . '/vendor/backbone/backbone.js' => array(),
-    ),
-    'dependencies' => array(
-      array('edit', 'underscore'),
-    ),
-  );
+  $libraries['backbone'] = _edit_convert_libraries_to_library(libraries_detect('backbone'), array(
+    'group' => JS_LIBRARY,
+    'weight' => -19,
+  ));
 
   return $libraries;
-}
-
-/**
- * Implements hook_block_info().
- *
- * Declare a block to put the quickedit link inside. Block is automatically
- * added to the 'sidebar_first' region.
- *
- * This is not the best way to handle it bu there isn't much choice on D7.
- */
-function edit_block_info() {
-  $blocks['edit'] = array(
-    'info' => t('Quick edit'),
-    'status' => TRUE,
-    'region' => 'sidebar_first',
-    // Per-role caching makes sense for Edit's block, because permissions are
-    // also defined on a per-role level.
-    'cache' => DRUPAL_CACHE_PER_ROLE,
-  );
-
-  return $blocks;
 }
 
 /**
@@ -275,48 +290,6 @@ function edit_field_attach_view_alter(&$output, $context) {
       $output[$field][$item]['#markup'] = $wrapped_and_untransformed;
     }
   }
-}
-
-/**
- * Implements hook_block_view().
- */
-function edit_block_view($delta = '') {
-  $block = array();
-  if ($delta === 'edit' && user_access('access in-place editing')) {
-    $block['subject'] = t('In-place edit operations');
-    $content = array();
-
-    // Don't provide a view/edit toggle on admin pages.
-    if (!path_is_admin(current_path())) {
-      $content['edit_trigger_link'] = edit_trigger_link();
-    }
-    $block['content'] = $content;
-  }
-
-  return $block;
-}
-
-/**
- * Provides a render array for the quick edit trigger link.
- *
- * Use this method to render Edit's trigger link somewhere else than in Edit's
- * default block.
- *
- * @see Drupal.behaviors.edit.attach()
- */
-function edit_trigger_link() {
-  return array(
-    '#type' => 'link',
-    '#title' => t('Quick edit'),
-    '#href' => current_path(),
-    '#options' => array('attributes' => array('id' => 'edit-trigger-link')),
-    '#ajax' => array(
-      'path' => 'edit/metadata',
-      'event' => 'metadatafetch.edit',
-      'progress' => array(),
-    ),
-    '#attached' => array('library' => array(array('edit', 'edit'))),
-  );
 }
 
 /**
@@ -384,6 +357,15 @@ function _edit_is_extra_field($entity_type, $field_name) {
 function edit_preprocess_field(&$variables) {
   $element = $variables['element'];
 
+  // Edit module only supports view modes, not dynamically defined "display
+  // options" (which field_view_field() always names the "_custom_display" view
+  // mode).
+  // @see field_view_field()
+  // @see https://drupal.org/node/2120335
+  if ($element['#view_mode'] === '_custom_display') {
+    return;
+  }
+
   // Some fields might be rendered through theme_field()
   // but are not Field API fields, e.g. Display Suite fields.
   if (!empty($element['#skip_edit'])) {
@@ -391,6 +373,20 @@ function edit_preprocess_field(&$variables) {
   }
 
   $entity_type = $element['#entity_type'];
+
+  // The 'comment' entity type will never support in-place editing, since it
+  // doesn't get Contextual Links.
+  if ($entity_type === 'comment') {
+    return;
+  }
+
+  // For now, Edit only supports 'node' entities. Therefor, don't annotate
+  // fields of other entity types with Edit's metadata.
+  // @todo https://drupal.org/node/2168725
+  if ($entity_type != 'node') {
+    return;
+  }
+
   $field_name = $element['#field_name'];
   $language = $element['#language'];
   $view_mode = $element['#view_mode'];
@@ -412,42 +408,7 @@ function edit_preprocess_field(&$variables) {
   }
 
   // Provide metadata through data- attributes.
-  $variables['attributes_array']['data-edit-id'] = "$entity_type/$id/$field_name/$language/$view_mode";
-}
-
-/**
- * Implements hook_preprocess_views_view_fields().
- *
- * Still a lot of handwaving for marking up views fields as in-place editable.
- */
-function edit_preprocess_views_view_field(&$variables) {
-  if (user_access('access in-place editing')) {
-    $views_field = $variables['field'];
-
-    // If this Views Field is hidden from display, then don't alter its output.
-    if ($views_field->options['exclude']) {
-      return;
-    }
-
-    if (!empty($variables['row']) && !empty($variables['row']->_field_data)) {
-      $entity_info = end($variables['row']->_field_data);
-
-      $entity_type = $entity_info['entity_type'];
-      $entity = $entity_info['entity'];
-      $field_name = $views_field->field;
-
-      // Ensure that only fields from the base entity (not appended text or
-      // provided via relationships) are marked as editable.
-      if (isset($entity->$field_name) && empty($views_field->relationship)) {
-        $language = !empty($entity->language) ? $entity->language : LANGUAGE_NONE;
-        list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
-
-        $edit_id = "$entity_type/$id/$field_name/$language/_custom_views";
-
-        $variables['output'] = edit_wrap_pseudofield($variables['output'], $edit_id, _edit_is_extra_field($entity_type, $field_name));
-      }
-    }
-  }
+  $variables['attributes_array']['data-edit-field-id'] = "$entity_type/$id/$field_name/$language/$view_mode";
 }
 
 /**
@@ -476,6 +437,7 @@ function edit_preprocess_page(&$variables) {
 /**
  * Implements hook_preprocess_node().
  *
+ * Sets data-edit-entity-id attribute.
  * Takes care of wrapping title, author, and created date for in-place
  * editability.
  */
@@ -487,6 +449,10 @@ function edit_preprocess_node(&$variables) {
   list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
   $language = !empty($entity->language) ? $entity->language : LANGUAGE_NONE;
   $edit_id_suffix = "$language/$view_mode";
+
+  // Set data-edit-entity-id attribute.
+  $node = $variables['elements']['#node'];
+  $variables['attributes_array']['data-edit-entity-id'] = 'node/' . $node->nid;
 
   // Pseudo-field: title.
   $node_type = node_type_get_type($bundle);
@@ -503,10 +469,22 @@ function edit_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements hook_node_view_alter().
+ *
+ * For in-place editing, it's necessary for contextual links to always exist,
+ * even when the node is being displayed on its own page.
+ */
+function edit_node_view_alter(&$build) {
+  if (!isset($build['#contextual_links']['node'])) {
+    $build['#contextual_links']['node'] = array('node', array($build['#node']->nid));
+  }
+}
+
+/**
  * Implements hook_preprocess_panels_pane().
  *
- * When a node is added as a pane, get it's view mode to build data-edit-id
- * properly.
+ * When a node is added as a pane, get it's view mode to build
+ * data-edit-field-id properly.
  */
 function edit_preprocess_panels_pane(&$variables) {
   // If we don't have a node object to work with, return early to avoid
@@ -524,45 +502,23 @@ function edit_preprocess_panels_pane(&$variables) {
   $view_mode = !empty($variables['pane']->configuration['build_mode']) ? $variables['pane']->configuration['build_mode'] : 'default';
   $edit_id_suffix = "$language/$view_mode";
 
+  // Set data-edit-is-contextual-region-for-entity attribute, to indicate that
+  // this Panels pane contains an in-place editable entity, yet the contextual
+  // region is not the DOM element of that entity itself, but this Panels pane.
+  // The data-edit-entity-id attribute is already being set on the node's DOM
+  // element, since Panels just uses the standard render pipeline.
+  $variables['attributes_array']['data-edit-is-contextual-region-for-entity'] = '';
+
   $node_type = node_type_get_type($node->type);
   if ($node_type->has_title) {
     // Title needs some special handling. Only wraps it when it hasn't been
-    // overridden. There is now way to update the panels configuration in edit
+    // overridden. There is no way to update the panels configuration in Edit
     // module currently.
     $configuration = $variables['pane']->configuration;
     if (!$configuration['override_title']) {
       $variables['title'] = edit_wrap_pseudofield($variables['title'], "node/$node->nid/title/$edit_id_suffix");
     }
   }
-}
-
-/**
- * Implements hook_ckeditor_plugin().
- *
- * Adds the required sharedspaces and onchange plugin.
- * @todo get rid of it when both make it in ckeditor 4.1.
- */
-function edit_ckeditor_plugin() {
-  return array(
-    'sharedspace' => array(
-      // Name of the plugin used to write it.
-      'name' => 'sharedspace',
-      // Description of the plugin - it would be displayed in the plugins management section of profile settings.
-      'desc' => t('Shared space'),
-      // The full path to the CKEditor plugins directory, with the trailing slash.
-      'path' => drupal_get_path('module', 'edit') . '/vendor/ckeditor/plugins/sharedspace/',
-      'buttons' => FALSE,
-    ),
-    'onchange' => array(
-      // Name of the plugin used to write it.
-      'name' => 'onchange',
-      // Description of the plugin - it would be displayed in the plugins management section of profile settings.
-      'desc' => t('onChange'),
-      // The full path to the CKEditor plugins directory, with the trailing slash.
-      'path' => drupal_get_path('module', 'edit') . '/vendor/ckeditor/plugins/onchange/',
-      'buttons' => FALSE,
-    ),
-  );
 }
 
 /**
@@ -604,88 +560,53 @@ function edit_editor_get($editor) {
 /**
  * Implements hook_edit_editor_info().
  *
- * @see Drupal 8's Edit's FormEditor and DirectEditor.
+ * @see Drupal 8's \Drupal\edit\Plugin\InPlaceEditorManager.
+ * @see Drupal 8's \Drupal\edit\Plugin\InPlaceEditorInterface.
  */
 function edit_edit_editor_info() {
   $editors = array();
-  $path = drupal_get_path('module', 'edit');
+  $path = drupal_get_path('module', 'edit') . '/InPlaceEditors';
   $editors['form'] = array(
-    'widget' => 'formEditEditor',
-    'compatibility check callback' => '_edit_editor_form_is_compatible',
-    'metadata callback' => '_edit_editor_form_metadata',
-    'attachments callback' => '_edit_editor_form_attachments',
-    'file' => 'includes/editor.form.inc',
-    'file path' => $path,
+    'file' => $path . '/formEditor.php',
+    'class' => 'FormEditor',
   );
-  $editors['direct'] = array(
-    'widget' => 'direct',
-    'compatibility check callback' => '_edit_editor_direct_is_compatible',
-    'metadata callback' => '_edit_editor_direct_metadata',
-    'attachments callback' => '_edit_editor_direct_attachments',
-    'file' => 'includes/editor.direct.inc',
-    'file path' => $path,
+  $editors['plain_text'] = array(
+    'file' => $path . '/plainTextEditor.php',
+    'class' => 'PlainTextEditor',
   );
   if (module_exists('ckeditor')) {
     $editors['ckeditor'] = array(
-      'widget' => 'ckeditor',
-      'compatibility check callback' => '_edit_editor_ckeditor_is_compatible',
-      'metadata callback' => '_edit_editor_ckeditor_metadata',
-      'attachments callback' => '_edit_editor_ckeditor_attachments',
-      'alternativeTo' => array('direct'),
-      'file' => 'includes/editor.ckeditor.inc',
-      'file path' => $path,
+      'alternativeTo' => array('plain_text'),
+      'file' => $path . '/CKEditor.php',
+      'class' => 'CKEditor',
     );
   }
   return $editors;
 }
 
 /**
- * Returns all editor attachments, ready for use with #attached.
+ * Helper to get a get an instance of an in-place editor plugin class.
  *
- * @param $editors
- *   List of editors we need the attachments for.
- * @param $metadata
- *   List of all fields and their configurations in use on the page.
+ * @param string $editor_id
+ *   ID of the in-place editor plugin.
+ * @param bool $reset
+ *   Whether to reset the static cache of in-place editor plugin objects.
  *
- * @return array
- *   The attachments.
- *
- * @see drupal_process_attached()
+ * @return EditInPlaceEditorInterface
+ *   An in-place editor plugin object.
  */
-function edit_get_all_editor_attachments($editors = array(), $metadata = array()) {
-  $attachments = array();
-  $settings = array();
+function _edit_get_editor_plugin($editor_id, $reset = FALSE) {
+  $editors = edit_editor_list();
 
-  // Editor plugins' attachments.
-  foreach (array_unique($editors) as $editor_id) {
-    $editor = edit_editor_get($editor_id);
-    if (!empty($editor['attachments callback'])) {
-      if ($editor['file']) {
-        $file_path = !empty($editor['file path']) ? $editor['file path'] : drupal_get_path('module', 'edit');
-        require_once $file_path . '/' . $editor['file'];
-      }
-      if (function_exists($editor['attachments callback'])) {
-        $attachments[$editor_id] = $editor['attachments callback']($metadata);
-        // Allows contrib to declare additional dependencies for the editor.
-        drupal_alter('edit_editor_attachments', $attachments[$editor_id], $editor_id, $metadata);
-      }
+  $plugins = &drupal_static(__FUNCTION__, NULL);
+  if (!$plugins || $reset) {
+    foreach ($editors as $editor_plugin_id => $editor) {
+      require_once $editor['file'];
+      $plugins[$editor_plugin_id] = new $editor['class'];
     }
-    $settings[$editor_id] = array('widget' => $editor['widget']);
   }
 
-  if (!empty($settings)) {
-    $attachments['settings'] = array(
-      // This will be used in Create.js' propertyEditorWidgetsConfiguration.
-      'js' => array(
-        array(
-          'type' => 'setting',
-          'data' => array('edit' => array('editors' => $settings)),
-        )
-      ),
-    );
-  }
-
-  return drupal_array_merge_deep_array($attachments);
+  return $plugins[$editor_id];
 }
 
 /**
@@ -715,13 +636,21 @@ function edit_library_alter(&$libraries, $module) {
   }
   if ($jquery_version && $module == 'edit') {
     $path = drupal_get_path('module', 'edit');
-    // Adds the minimum event API createjs needs
-    if ($jquery_version < '1.7') {
-      $libraries['edit']['js'][$path . '/js/ducktape.events.js'] = array('group' => JS_LIBRARY);
+    // If the version of jQuery is old, we need to add `addBack`.
+    if ($jquery_version < '1.8') {
+      $libraries['edit']['js'][$path . '/js/jquery/ducktape.addback.js'] = array('group' => JS_LIBRARY);
     }
-    // If the version of jQuery is old, we need to add deferred to jquery 1.4
+    // If the version of jQuery is old, we need to add `on` and `off`.
+    if ($jquery_version < '1.7') {
+      $libraries['edit']['js'][$path . '/js/jquery/ducktape.events.js'] = array('group' => JS_LIBRARY);
+    }
+    // If the version of jQuery is old, we need to add `prop`.
+    if ($jquery_version < '1.6') {
+      $libraries['edit']['js'][$path . '/js/jquery/ducktape.prop.js'] = array('group' => JS_LIBRARY);
+    }
+    // If the version of jQuery is old, we need to add `deferred`.
     if ($jquery_version < '1.5') {
-      $libraries['edit']['js'][$path . '/js/ducktape.deferred.js'] = array('group' => JS_LIBRARY);
+      $libraries['edit']['js'][$path . '/js/jquery/ducktape.deferred.js'] = array('group' => JS_LIBRARY);
     }
   }
 }
@@ -729,14 +658,27 @@ function edit_library_alter(&$libraries, $module) {
 /**
  * Implements hook_field_formatter_info_alter().
  *
- * Every field can use the 'form' editor, but non-rich text fields can use the
- * 'direct' editor, so we enrich the field formatter info metadata to indicate
- * this.
+ * Edit extends the field formatter info hook metadata with the following keys:
+ * - edit: currently only contains one subkey 'editor' which indicates which
+ *   in-place editor should be used. Possible values are 'form', 'plain_text',
+ *   'disabled' or another in-place editor other than the ones Edit module
+ *   provides.
+ *
+ * @see Drupal 8's edit_field_formatter_info_alter()
  */
 function edit_field_formatter_info_alter(&$info) {
+  foreach ($info as $key => $settings) {
+    // Set in-place editor to 'form' if none is supplied.
+    if (empty($settings['edit'])) {
+      $info[$key]['settings']['edit'] = array('editor' => 'form');
+    }
+  }
+
+  // @see Drupal 8's \Drupal\text\Plugin\field\formatter\TextDefaultFormatter
+  // @see Drupal 8's \Drupal\text\Plugin\field\formatter\TextPlainFormatter
   if (module_exists('text')) {
-    $info['text_default']['settings']['edit']['editor'] = 'direct';
-    $info['text_plain']['settings']['edit']['editor'] = 'direct';
+    $info['text_default']['settings']['edit']['editor'] = 'plain_text';
+    $info['text_plain']['settings']['edit']['editor'] = 'plain_text';
   }
 }
 
@@ -745,16 +687,16 @@ function edit_field_formatter_info_alter(&$info) {
  *
  * @param $name
  *   The existing name value.
- * @param $node_id
- *   The node ID.
+ * @param $edit_field_id
+ *   The in-place editing field ID.
  * @param $is_inline
  *   Whether this pseudofield should be rendered as display:inline or not.
  *
  * @return
  *   The fully-themed HTML output for the wrapped "name" pseudo-field.
  */
-function edit_wrap_pseudofield($value, $edit_id, $is_inline = FALSE) {
-  return theme('edit_wrap_field', array('value' => $value, 'edit_id' => $edit_id, 'inline' => $is_inline));
+function edit_wrap_pseudofield($value, $edit_field_id, $is_inline = FALSE) {
+  return theme('edit_wrap_field', array('value' => $value, 'edit_field_id' => $edit_field_id, 'inline' => $is_inline));
 }
 
 /**
@@ -764,10 +706,209 @@ function edit_wrap_pseudofield($value, $edit_id, $is_inline = FALSE) {
  * is made contenteditable.
  */
 function theme_edit_wrap_field($variables) {
-  $variables['attributes']['data-edit-id'] = $variables['edit_id'];
+  $variables['attributes']['data-edit-field-id'] = $variables['edit_field_id'];
   $el = 'div';
   if ($variables['inline']) {
     $el = 'span';
   }
-  return '<'. $el . drupal_attributes($variables['attributes']) . '><' . $el .' class="field-item">' .  $variables['value'] . '</' . $el . '></' . $el . '>';
+  return '<'. $el . drupal_attributes($variables['attributes']) . '>' .  $variables['value'] . '</' . $el . '>';
+}
+
+/**
+ * Injects start and end markers before and after the content region.
+ *
+ * Certain themes don't add region wrappers, so we can't assume region
+ * wrappers are present. Therefore, Edit must inject its own alternative: start
+ * and end markers for the "content" region.
+ */
+function theme_edit_wrap_content_region($variables) {
+  $element = $variables['element'];
+  return '<div data-edit-content-region-start></div>' . $element['#children'] . '<div data-edit-content-region-end></div>';
+}
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * @see Libraries module.
+ */
+function edit_libraries_info() {
+  module_load_include('inc', 'edit', 'includes/libraries');
+
+  $libraries = array();
+
+  $common = array(
+    'version callback' => '_edit_libraries_get_version',
+    'variant order' => array('minified', 'source'),
+  );
+
+  $libraries['underscore'] = array(
+    'name' => 'Underscore',
+    'vendor url' => 'http://documentcloud.github.io/backbone/',
+    'download url' => 'https://github.com/jashkenas/underscore/archive/1.5.2.zip',
+    'version arguments' => array(
+      'variants' => array(
+        'source' => array(
+          'file' => 'underscore.js',
+          // @todo Document an actual example version string.
+          'pattern' => '#VERSION *\W *[\'\"]{1}(.*?)[\'\"]{1}#',
+          // In the unminified Underscore.js 1.5.2, the version is defined on
+          // line 68.
+          'lines' => 100,
+        ),
+        'minified' => array(
+          'file' => 'underscore-min.js',
+          'pattern' => '#VERSION *\W *[\'\"]{1}(.*?)[\'\"]{1}#',
+        ),
+      ),
+    ),
+    'versions' => array(
+      // Means ">=1.5.0": matches 1.5.0, 1.5.2, etc.
+      '1.5.0' => array(
+        'variants' => array(
+          'source' => array(
+            'files' => array(
+              'js' => array(
+                'underscore.js',
+              ),
+            ),
+            // Without a variant callback, the variant is assumed to be
+            // installed.
+            'variant callback' => '_edit_libraries_variant_exists',
+            'variant arguments' => array('underscore.js'),
+          ),
+          'minified' => array(
+            'files' => array(
+              'js' => array(
+                'underscore-min.js',
+              ),
+            ),
+            // Without a variant callback, the variant is assumed to be
+            // installed.
+            'variant callback' => '_edit_libraries_variant_exists',
+            'variant arguments' => array('underscore-min.js'),
+          ),
+        ),
+      ),
+    ),
+  );
+  $libraries['underscore'] += $common;
+
+  $libraries['backbone'] = array(
+    'name' => 'Backbone',
+    'vendor url' => 'http://documentcloud.github.io/backbone/',
+    'download url' => 'https://github.com/jashkenas/backbone/archive/1.1.0.zip',
+    'version arguments' => array(
+      'variants' => array(
+        'source' => array(
+          'file' => 'backbone.js',
+          // @todo Document an actual example version string.
+          'pattern' => '#VERSION *\W *[\'\"]{1}(.*?)[\'\"]{1}#',
+          // In the unminified Backbone.js 1.1.0, the version is defined on line
+          // 38.
+          'lines' => 50,
+        ),
+        'minified' => array(
+          'file' => 'backbone-min.js',
+          'pattern' => '#VERSION *\W *[\'\"]{1}(.*?)[\'\"]{1}#',
+        ),
+      ),
+    ),
+    'versions' => array(
+      // Means ">=1.0.0": matches 1.0.0, 1.1.0, etc.
+      '1.0.0' => array(
+        'variants' => array(
+          'source' => array(
+            'name' => 'Backbone',
+            'files' => array(
+              'js' => array(
+                'backbone.js',
+              ),
+            ),
+            // Without a variant callback, the variant is assumed to be
+            // installed.
+            'variant callback' => '_edit_libraries_variant_exists',
+            'variant arguments' => array('backbone.js'),
+            'dependencies' => array('underscore (>=1.5.0)'),
+          ),
+          'minified' => array(
+            'name' => 'Backbone',
+            'files' => array(
+              'js' => array(
+                'backbone-min.js',
+              ),
+            ),
+            // Without a variant callback, the variant is assumed to be
+            // installed.
+            'variant callback' => '_edit_libraries_variant_exists',
+            'variant arguments' => array('backbone-min.js'),
+            'dependencies' => array('underscore (>=1.5.0)'),
+          ),
+        ),
+      ),
+    ),
+  );
+  $libraries['backbone'] += $common;
+
+  return $libraries;
+}
+
+/**
+ * Generates an identifier to store an entity in TempStore while editing.
+ *
+ * Must be user-specific.
+ *
+ * @param string $entity_type
+ *   The type of the entity being in-place edited.
+ * @param int $entity_id
+ *   The ID of the entity being in-place edited.
+ *
+ * @return string
+ *   The user- and entity-specific TempStore identifier.
+ */
+function _edit_entity_tempstore_id($entity_type, $entity_id) {
+  global $user;
+  return $user->uid . '/' . $entity_type . '/' . $entity_id;
+}
+
+/**
+ * Saves an entity to TempStore.
+ *
+ * @param string $entity_type
+ *   The type of the entity being saved to TempStore.
+ * @param int $entity_id
+ *   The ID of the entity being saved to TempStore.
+ * @param stdClass $entity
+ *   The entity object being saved to TempStore.
+ */
+function _edit_entity_save_to_tempstore($entity_type, $entity_id, $entity) {
+  ctools_include('object-cache');
+  $tempstore_id = _edit_entity_tempstore_id($entity_type, $entity_id);
+  ctools_object_cache_set('edit', $tempstore_id, $entity);
+}
+
+/**
+ * Implements hook_css_alter().
+ *
+ * @see css/bartik.css
+ * @see https://drupal.org/node/2149261#comment-8290547
+ */
+function edit_css_alter(&$css) {
+  $bartik_style_css = drupal_get_path('theme', 'bartik') . '/css/style.css';
+  if (isset($css[$bartik_style_css])) {
+    $bartik_fix_css = drupal_get_path('module', 'edit') . '/css/bartik.css';
+    $css[$bartik_fix_css] = array(
+      'data' => $bartik_fix_css,
+      // Same properties as edit.(module|theme|icons).css, except for weight.
+      'group' => 100,
+      'type' => 'file',
+      'weight' => 1.00,
+      'every_page' => FALSE,
+      'media' => 'all',
+      'preprocess' => TRUE,
+      'browsers' => array(
+        'IE' => TRUE,
+        '!IE' => TRUE,
+      ),
+    );
+  }
 }

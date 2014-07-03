@@ -47,11 +47,11 @@ class EditEditorSelector implements EditEditorSelectorInterface {
 
     // Check if the formatter defines an appropriate in-place editor. For
     // example, text formatters displaying untrimmed text can choose to use the
-    // 'direct' editor. If the formatter doesn't specify, fall back to the
+    // 'plain_text' editor. If the formatter doesn't specify, fall back to the
     // 'form' editor, since that can work for any field. Formatter definitions
     // can use 'disabled' to explicitly opt out of in-place editing.
     $formatter_settings = $formatter_type['settings'];
-    $editor_id = (isset($formatter_settings['edit']) && is_array($formatter_settings['edit']) && isset($formatter_settings['edit']['editor'])) ? $formatter_settings['edit']['editor'] : 'form';
+    $editor_id = $formatter_settings['edit']['editor'];
     if ($editor_id === 'disabled') {
       return;
     }
@@ -67,11 +67,8 @@ class EditEditorSelector implements EditEditorSelectorInterface {
 
     // Make a choice.
     foreach ($editor_choices as $editor_id) {
-      $editor = $editors[$editor_id];
-      if ($editor['file']) {
-        require_once $editor['file path'] . '/' . $editor['file'];
-      }
-      if ($editor['compatibility check callback']($instance, $items)) {
+      $editor_plugin = _edit_get_editor_plugin($editor_id);
+      if ($editor_plugin->isCompatible($instance, $items)) {
         return $editor_id;
       }
     }
@@ -83,38 +80,16 @@ class EditEditorSelector implements EditEditorSelectorInterface {
   /**
    * Implements EditEditorSelectorInterface::getEditorAttachments().
    */
-  public function getEditorAttachments(array $editor_ids, array $metadata) {
+  public function getEditorAttachments(array $editor_ids) {
     $attachments = array();
+    $editor_ids = array_unique($editor_ids);
 
     // Editor plugins' attachments.
-    foreach (array_unique($editor_ids) as $editor_id) {
-      $editor = edit_editor_get($editor_id);
-      if (!empty($editor['attachments callback'])) {
-        if ($editor['file']) {
-          require_once  $editor['file path'] . '/' . $editor['file'];
-        }
-        if (function_exists($editor['attachments callback'])) {
-          $attachments[$editor_id] = $editor['attachments callback']($metadata);
-          // Allows contrib to declare additional dependencies for the editor.
-          drupal_alter('edit_editor_attachments', $attachments[$editor_id], $editor_id, $metadata);
-        }
-      }
-    }
-
-    // JavaScript settings for Edit.
-    foreach (array_unique($editor_ids) as $editor_id) {
-      $editor = edit_editor_get($editor_id);
-      $attachments[] = array(
-        // This will be used in Create.js' propertyEditorWidgetsConfiguration.
-        'js' => array(
-          array(
-            'type' => 'setting',
-            'data' => array('edit' => array('editors' => array(
-              $editor_id => array('widget' => $editor['widget'])
-            )))
-          )
-        )
-      );
+    foreach ($editor_ids as $editor_id) {
+      $editor_plugin = _edit_get_editor_plugin($editor_id);
+      $attachments[$editor_id] = $editor_plugin->getAttachments();
+      // Allows contrib to declare additional dependencies for the editor.
+      drupal_alter('edit_editor_attachments', $attachments[$editor_id], $editor_id);
     }
 
     return drupal_array_merge_deep_array($attachments);

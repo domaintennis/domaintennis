@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Contains Edit's EditEntityFieldAccessCheckInterface.
  *
  * @see Drupal 8's \Drupal\edit\Access\EditEntityFieldAccessCheckInterface.

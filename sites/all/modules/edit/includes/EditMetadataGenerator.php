@@ -44,9 +44,18 @@ class EditMetadataGenerator implements EditMetadataGeneratorInterface {
   }
 
   /**
-   * Implements EditMetadataGeneratorInterface::generate().
+   * Implements EditMetadataGeneratorInterface::generateEntityMetadata().
    */
-  public function generate($entity_type, $entity, array $instance, $langcode, $view_mode) {
+  public function generateEntityMetadata($entity_type, $entity, $langcode) {
+    return array(
+      'label' => $entity->title,
+    );
+  }
+
+  /**
+   * Implements EditMetadataGeneratorInterface::generateFieldMetadata().
+   */
+  public function generateFieldMetadata($entity_type, $entity, array $instance, $langcode, $view_mode) {
     $field_name = $instance['field_name'];
 
     // Early-return if user does not have access.
@@ -91,29 +100,27 @@ class EditMetadataGenerator implements EditMetadataGeneratorInterface {
       'editor' => $editor_id,
       'aria' => t('Entity @type @id, field @field', array('@type' => $entity_type, '@id' => $id, '@field' => $label)),
     );
+    $alter_hook_context = array(
+      'entity_type' => $entity_type,
+      'entity' => $entity,
+      'field_name' => $field_name,
+    );
     if (!_edit_is_extra_field($entity_type, $field_name)) {
-      $editor = edit_editor_get($editor_id);
-      if (!empty($editor['metadata callback'])) {
-        if ($editor['file']) {
-          require_once $editor['file path'] . '/' . $editor['file'];
-        }
-        if (function_exists($editor['metadata callback'])) {
-          $custom_metadata = $editor['metadata callback']($instance, $items);
-          if (count($custom_metadata)) {
-            $metadata['custom'] = $custom_metadata;
-          }
-        }
+      $editor_plugin = _edit_get_editor_plugin($editor_id);
+      $attachments[$editor_id] = $editor_plugin->getAttachments();
+      $custom_metadata = $editor_plugin->getMetadata($instance, $items);
+      if (count($custom_metadata)) {
+        $metadata['custom'] = $custom_metadata;
       }
 
-      // Allow the metadata to be altered.
-      $context = array(
-        'entity_type' => $entity_type,
-        'entity' => $entity,
+      $alter_hook_context += array(
         'field' => $instance,
         'items' => $items,
       );
-      drupal_alter('edit_editor_metadata', $metadata, $editor_id, $context);
     }
+
+    // Allow the metadata to be altered.
+    drupal_alter('edit_editor_metadata', $metadata, $alter_hook_context);
 
     return $metadata;
   }

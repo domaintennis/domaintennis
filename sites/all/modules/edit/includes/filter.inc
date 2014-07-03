@@ -48,19 +48,44 @@ function edit_filter_info_alter(&$info) {
 
   /* CONTRIB */
   $contrib_filter_type = array(
+    // https://drupal.org/project/biblio
+    'biblio_filter_reference' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    'biblio_filter_inline_reference' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
     // http://drupal.org/project/caption_filter
     'caption_filter' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    // https://drupal.org/project/ckeditor_link
+    'ckeditor_link_filter' => FILTER_TYPE_TRANSFORM_REVERSIBLE,
+    // https://drupal.org/project/emptyparagraphkiller
+    'emptyparagraphkiller' => FILTER_TYPE_HTML_RESTRICTOR,
+    // https://drupal.org/project/footnotes
+    'filter_footnotes' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    // https://drupal.org/project/commons_hashtags
+    'filter_hashtags' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
     // http://drupal.org/project/filter_html_image_secure
     'filter_html_image_secure' => FILTER_TYPE_HTML_RESTRICTOR,
+    // https://drupal.org/project/htmlpurifier
+    'htmlpurifier_basic' => FILTER_TYPE_HTML_RESTRICTOR,
+    'htmlpurifier_advanced' => FILTER_TYPE_HTML_RESTRICTOR,
     // http://drupal.org/project/image_resize_filter
     'image_resize_filter' => FILTER_TYPE_TRANSFORM_REVERSIBLE,
     // http://drupal.org/project/markdown
     'filter_markdown' => FILTER_TYPE_MARKUP_LANGUAGE,
+    // https://drupal.org/project/insert_view
+    'insert_view' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
     // http://drupal.org/project/mathjax: see http://drupal.org/node/1900436#comment-7198530
     // http://drupal.org/project/media
     'media_filter' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    // https://drupal.org/project/node_embed
+    'node_embed' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    // https://drupal.org/project/oembed
+    'oembed' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
     // http://drupal.org/project/pathologic
     'pathologic' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    // https://drupal.org/project/smart_paging
+    'smart_paging_filter' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    'smart_paging_filter_autop' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
+    // http://drupal.org/project/spamspan
+    'spamspan' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
     // http://drupal.org/project/typogrify
     'typogrify' => FILTER_TYPE_TRANSFORM_IRREVERSIBLE,
     // http://drupal.org/project/wysiwyg_filter

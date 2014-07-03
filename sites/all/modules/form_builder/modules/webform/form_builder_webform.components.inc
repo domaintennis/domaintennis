@@ -6,6 +6,23 @@
  */
 
 /**
+ * Configuration form for the "unique" property.
+ */
+function form_builder_webform_property_unique_form(&$form_state, $form_type, $element, $property) {
+  $form = array();
+
+  $form['unique'] = array(
+    '#form_builder' => array('property_group' => 'validation'),
+    '#title' => t('Unique'),
+    '#description' => t('Check that all entered values for this field are unique. The same value is not allowed to be used twice.'),
+    '#type' => 'checkbox',
+    '#default_value' => $element['#unique'],
+  );
+
+  return $form;
+}
+
+/**
  * @defgroup form-builder-webform-date-callbacks Callbacks for the Date component
  * @{
  */
@@ -95,8 +112,31 @@ function _form_builder_webform_form_builder_map_email() {
       'disabled' => array(
         'storage_parents' => array('extra', 'disabled'),
       ),
+      'unique' => array(
+        'storage_parents' => array('extra', 'unique'),
+      ),
     ),
   );
+}
+
+/**
+ * Implements _form_builder_webform_form_builder_properties_component().
+ */
+function _form_builder_webform_form_builder_properties_email() {
+  return array(
+    'unique' => array(
+      'form' => 'form_builder_webform_property_unique_form',
+    ),
+  );
+}
+
+/**
+ * Implements _form_builder_webform_form_builder_load_component().
+ */
+function _form_builder_webform_form_builder_load_email($element) {
+  $element['#unique'] = !empty($element['#webform_component']['extra']['unique']);
+
+  return $element;
 }
 
 /**
@@ -282,6 +322,9 @@ function _form_builder_webform_form_builder_map_grid() {
         'form_parents' => array('display', 'qrand'),
         'storage_parents' => array('extra', 'qrand'),
       ),
+      'unique' => array(
+        'storage_parents' => array('extra', 'unique'),
+      ),
     ),
   );
 }
@@ -299,6 +342,9 @@ function _form_builder_webform_form_builder_properties_grid() {
       'form' => 'form_builder_webform_property_grid_questions_form',
       'submit' => array('form_builder_webform_property_grid_form_submit'),
     ),
+    'unique' => array(
+      'form' => 'form_builder_webform_property_unique_form',
+    ),
   );
 }
 
@@ -309,6 +355,7 @@ function _form_builder_webform_form_builder_load_grid($element) {
   // Convert properties used only in Form Builder.
   $element['#custom_grid_option_keys'] = !empty($element['#webform_component']['extra']['custom_option_keys']);
   $element['#custom_grid_question_keys'] = !empty($element['#webform_component']['extra']['custom_question_keys']);
+  $element['#unique'] = !empty($element['#webform_component']['extra']['unique']);
 
   return $element;
 }
@@ -494,7 +541,7 @@ function _form_builder_webform_form_builder_preview_alter_markup($form_element) 
     $form_element['#markup'] = t('Empty markup field');
   }
 
-  // This runs after drupal_pre_render_markup so the changed markup 
+  // This runs after drupal_pre_render_markup so the changed markup
   // needs to be copied to #children.
   $form_element['#children'] = $form_element['#markup'];
 
@@ -582,8 +629,31 @@ function _form_builder_webform_form_builder_map_number() {
         'form_parents' => array('analysis', 'excludezero'),
         'storage_parents' => array('extra', 'excludezero'),
       ),
+      'unique' => array(
+        'storage_parents' => array('extra', 'unique'),
+      ),
     ),
   );
+}
+
+/**
+ * Implements _form_builder_webform_form_builder_properties_component().
+ */
+function _form_builder_webform_form_builder_properties_number() {
+  return array(
+    'unique' => array(
+      'form' => 'form_builder_webform_property_unique_form',
+    ),
+  );
+}
+
+/**
+ * Implements _form_builder_webform_form_builder_load_component().
+ */
+function _form_builder_webform_form_builder_load_number($element) {
+  $element['#unique'] = !empty($element['#webform_component']['extra']['unique']);
+
+  return $element;
 }
 
 /**
@@ -765,16 +835,32 @@ function _form_builder_webform_form_builder_load_select($form_element) {
 }
 
 /**
+ * Serializes the value of a select component.
+ *
+ * @param array $options
+ *   Select component options.
+ *
+ * @return string
+ */
+function _form_builder_serialize_select(array $options) {
+  $serialized = '';
+  foreach ($options as $key => $option_value) {
+    if (is_array($option_value)) {
+      $serialized .= "<{$key}>\n" . _form_builder_serialize_select($option_value) . "<>\n";
+    }
+    else {
+      $serialized .= "{$key}|{$option_value}\n";
+    }
+  }
+
+  return $serialized;
+}
+
+/**
  * Implements _form_builder_webform_form_builder_save_component().
  */
 function _form_builder_webform_form_builder_save_select($component, $form_element) {
-  $options = '';
-
-  foreach ($form_element['#options'] as $key => $option_value) {
-    $options .= $key . '|' . $option_value . "\n";
-  }
-
-  $component['extra']['items'] = $options;
+  $component['extra']['items'] = _form_builder_serialize_select($form_element['#options']);
   $component['extra']['multiple'] = $form_element['#form_builder']['element_type'] == 'checkboxes';
   $component['extra']['aslist'] = $form_element['#form_builder']['element_type'] == 'select';
 
@@ -883,8 +969,31 @@ function _form_builder_webform_form_builder_map_textfield() {
       'disabled' => array(
         'storage_parents' => array('extra', 'disabled'),
       ),
+      'unique' => array(
+        'storage_parents' => array('extra', 'unique'),
+      ),
     ),
   );
+}
+
+/**
+ * Implements _form_builder_webform_form_builder_properties_component().
+ */
+function _form_builder_webform_form_builder_properties_textfield() {
+  return array(
+    'unique' => array(
+      'form' => 'form_builder_webform_property_unique_form',
+    ),
+  );
+}
+
+/**
+ * Implements _form_builder_webform_form_builder_load_component().
+ */
+function _form_builder_webform_form_builder_load_textfield($element) {
+  $element['#unique'] = !empty($element['#webform_component']['extra']['unique']);
+
+  return $element;
 }
 
 /**
@@ -1076,7 +1185,7 @@ function _form_builder_webform_build_edit_form($component_type, $element, $prope
 
   // The full node is needed here so that the "private" option can be access
   // checked.
-  $node = !isset($nid) ? (object) array('nid' => NULL) : node_load($nid);
+  $node = !isset($nid) ? (object) array('nid' => NULL, 'webform' => webform_node_defaults()) : node_load($nid);
   $form = webform_component_edit_form($empty_form, $empty_form_state, $node, $component);
   $form = drupal_array_get_nested_value($form, $form_nested_keys);
 
@@ -1107,8 +1216,8 @@ function _form_builder_webform_build_edit_form($component_type, $element, $prope
  *   The form array to modify.
  */
 function _form_builder_webform_force_tree(&$form) {
-  unset($form['#parents']); 
-  $form['#tree'] = TRUE; 
+  unset($form['#parents']);
+  $form['#tree'] = TRUE;
   foreach (element_children($form) as $key) {
     _form_builder_webform_force_tree($form[$key]);
   }

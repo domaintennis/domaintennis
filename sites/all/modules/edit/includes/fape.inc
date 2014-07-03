@@ -17,10 +17,8 @@
  * @see edit_field_edit_form_submit()
  * @ingroup forms
  */
-function edit_field_edit_form(&$form, &$form_state) {
+function edit_field_edit_form(&$form, &$form_state, $entity, $field_name) {
   $entity_type = $form_state['entity_type'];
-  $entity = $form_state['entity'];
-  $field_name = $form_state['field_name'];
   $langcode = $form_state['langcode'];
   $bundle = $form_state['bundle'];
 
@@ -32,6 +30,7 @@ function edit_field_edit_form(&$form, &$form_state) {
   );
   field_attach_form($entity_type, $entity, $form, $form_state, $langcode, $options);
 
+  $entity->revision = FALSE;
   // @todo make this not node-specific
   if ($entity_type === 'node') {
     $entity->revision = in_array('revision', variable_get('node_options_' . $bundle, array()));
@@ -64,11 +63,8 @@ function edit_field_edit_form_validate($form, &$form_state) {
  */
 function edit_field_edit_form_submit(&$form, &$form_state) {
   $entity = _edit_build_entity($form, $form_state);
-  entity_save($form_state['entity_type'], $entity);
 
-  // Update the entity in the form state, so that edit_field_edit() can use it
-  // to render the updated field.
-  $form_state['entity'] = $entity;
+  _edit_entity_save_to_tempstore($form_state['entity_type'], $form_state['entity_id'], $entity);
 }
 
 /**

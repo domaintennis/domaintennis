@@ -17,9 +17,9 @@ function node_edit_extra_fields_info() {
       'label' => t('Title'),
       'default editor' => 'form',
       'view mode dependent editor' => array(
-        'full' => 'direct',
+        'full' => 'plain_text',
+        'teaser' => 'plain_text',
       ),
-      'access callback' => 'edit_node_access',
       'edit subform id' => 'edit_field_node_title_edit_form',
       'form simplification element key' => 'title',
       'rerender callback' => 'edit_field_node_title_rerender',
@@ -51,10 +51,9 @@ function node_edit_extra_fields_info() {
  * @see edit_field_node_author_edit_form_submit()
  * @ingroup forms
  */
-function edit_field_node_author_edit_form(&$form, &$form_state) {
-  _edit_node_object_prepare($form_state['entity']);
+function edit_field_node_author_edit_form(&$form, &$form_state, $node, $field_name) {
+  _edit_node_object_prepare($node);
 
-  $node = $form_state['entity'];
   $form['name'] = array(
     '#type' => 'textfield',
     '#title' => t('Authored by'),
@@ -105,11 +104,8 @@ function edit_field_node_author_edit_form_submit($form, &$form_state) {
   // We must load fape.inc to use _edit_entity_set_log().
   module_load_include('inc', 'edit', 'includes/fape');
   _edit_entity_set_log($entity, t('Author'));
-  entity_save($form_state['entity_type'], $entity);
 
-  // Update the entity in the form state, so that edit_field_edit() can use it
-  // to render the updated field.
-  $form_state['entity'] = $entity;
+  _edit_entity_save_to_tempstore($form_state['entity_type'], $form_state['entity_id'], $entity);
 }
 
 function edit_field_node_author_rerender($entity) {
@@ -129,10 +125,9 @@ function edit_field_node_author_rerender($entity) {
  * @see edit_field_node_created_edit_form_submit()
  * @ingroup forms
  */
-function edit_field_node_created_edit_form(&$form, &$form_state) {
-  _edit_node_object_prepare($form_state['entity']);
+function edit_field_node_created_edit_form(&$form, &$form_state, $node, $field_name) {
+  _edit_node_object_prepare($node);
 
-  $node = $form_state['entity'];
   $form['date'] = array(
     '#type' => 'textfield',
     '#title' => t('Authored on'),
@@ -173,11 +168,8 @@ function edit_field_node_created_edit_form_submit($form, &$form_state) {
   // We must load fape.inc to use _edit_entity_set_log().
   module_load_include('inc', 'edit', 'includes/fape');
   _edit_entity_set_log($entity, t('Date'));
-  entity_save($form_state['entity_type'], $entity);
 
-  // Update the entity in the form state, so that edit_field_edit() can use it
-  // to render the updated field.
-  $form_state['entity'] = $entity;
+  _edit_entity_save_to_tempstore($form_state['entity_type'], $form_state['entity_id'], $entity);
 }
 
 function edit_field_node_created_rerender($entity) {
@@ -192,10 +184,9 @@ function edit_field_node_created_rerender($entity) {
  * @see edit_field_node_title_edit_form_submit()
  * @ingroup forms
  */
-function edit_field_node_title_edit_form(&$form, &$form_state) {
-  _edit_node_object_prepare($form_state['entity']);
+function edit_field_node_title_edit_form(&$form, &$form_state, $node, $field_name) {
+  _edit_node_object_prepare($node);
 
-  $node = $form_state['entity'];
   $type = node_type_get_type($node);
   $form['title'] = array(
     '#type' => 'textfield',
@@ -220,11 +211,8 @@ function edit_field_node_title_edit_form_submit($form, &$form_state) {
   // We must load fape.inc to use _edit_entity_set_log().
   module_load_include('inc', 'edit', 'includes/fape');
   _edit_entity_set_log($entity, t('Title'));
-  entity_save($form_state['entity_type'], $entity);
 
-  // Update the entity in the form state, so that edit_field_edit() can use it
-  // to render the updated field.
-  $form_state['entity'] = $entity;
+  _edit_entity_save_to_tempstore($form_state['entity_type'], $form_state['entity_id'], $entity);
 }
 
 function edit_field_node_title_rerender($entity) {

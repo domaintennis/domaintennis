@@ -1,24 +1,6 @@
 # Ignore configuration files that may contain sensitive information.
-#
-# Commenting settings.php out as have setuping env project: https://www.drupal.org/project/env
-#
-# sites/*/settings*.php
-
+sites/*/settings*.php
 
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
-
-# Ignore MAC OS X Files
-.DS_Store
-._.DS_Store
-
-# Ignore awstats crap
-awstatsicons
-icon
-awstats-icon
-awstatsicon
-stats
-
-# Ignore sass cache files
-sites/*/themes/*/.sass-cache

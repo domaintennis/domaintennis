@@ -92,16 +92,16 @@
   /* LTR */
 }
 .menu .expanded {
-  list-style-image: url('../images/menu-expanded.png?1388516670');
+  list-style-image: url('../images/menu-expanded.png?1388162849');
   list-style-type: circle;
 }
 .menu .collapsed {
-  list-style-image: url('../images/menu-collapsed.png?1388516670');
+  list-style-image: url('../images/menu-collapsed.png?1388162849');
   /* LTR */
   list-style-type: disc;
 }
 .menu .leaf {
-  list-style-image: url('../images/menu-leaf.png?1388516670');
+  list-style-image: url('../images/menu-leaf.png?1388162849');
   list-style-type: square;
 }
 .menu .active {

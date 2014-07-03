@@ -197,23 +197,28 @@ function wysiwyg_ckeditor_settings_form(&$form, &$form_state) {
   );
 
   if (version_compare($installed_version, '4.1.0', '>=')) {
-    $form['output']['acf_mode'] = array(
+    $form['output']['acf'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Advanced Content Filter'),
+      '#description' => t('ACF limits and adapts input data (HTML code added in source mode or by the editor.setData method, pasted HTML code, etc.) so it matches the editor configuration in the best possible way. It may also deactivate features which generate HTML code that is not allowed by the configuration. See <a href="@url">@url</a> for details.', array('@url' => url('http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter'))),
+    );
+    $form['output']['acf']['acf_mode'] = array(
       '#type' => 'select',
-      '#title' => t('Advanced content filter'),
+      '#title' => t('Mode'),
       '#options' => array(
         WYSIWYG_CKEDITOR_ACF_AUTOMATIC => t('Automatic'),
         WYSIWYG_CKEDITOR_ACF_CUSTOM => t('Custom'),
         WYSIWYG_CKEDITOR_ACF_DISABLED => t('Disabled'),
       ),
       '#default_value' => isset($profile->settings['acf_mode']) ? $profile->settings['acf_mode'] : WYSIWYG_CKEDITOR_ACF_DISABLED,
-      '#description' => t('If set to <em>Automatic</em> or <em>Custom</em>, the editor will strip out any content not explicitely allowed <strong>when the editor loads</strong>. If set to <em>Custom</em>, buttons without a corresponding whitelist rule will be disabled. See <a href="@url">@url</a> for details.', array('@url' => url('http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter'))),
+      '#description' => t('If set to <em>Automatic</em> or <em>Custom</em>, the editor will strip out any content not explicitely allowed <strong>when the editor loads</strong>.'),
     );
 
-    $form['output']['acf_allowed_content'] = array(
+    $form['output']['acf']['acf_allowed_content'] = array(
       '#type' => 'textarea',
-      '#title' => t('Allowed content'),
+      '#title' => t('Content Rules'),
       '#default_value' => isset($profile->settings['acf_allowed_content']) ? $profile->settings['acf_allowed_content'] : '',
-      '#description' => t('Rules for whitelisting content for the advanced content filter. Both string and object formats accepted. See <a href="@url">@url</a> for details.', array('@url' => url('http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules'))),
+      '#description' => t('Rules for whitelisting content for the advanced content filter. Both string and object formats accepted. Uses the <a href="@allowed_url">allowedContent</a> setting in <em>Custom</em> mode <strong>or</strong> the <a href="@extra_allwed_url">extraAllowedContent</a> settings in <em>Automatic</em> mode internally. See <a href="@info_url">@info_url</a> for details.', array('@info_url' => url('http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules'), '@allowed_url' => url('http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-allowedContent'), '@allowed_extra_url' => url('http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-extraAllowedContent'))),
       '#states' => array(
         'visible' => array(
           ':input[name="acf_mode"]' => array(
@@ -351,13 +356,13 @@ function wysiwyg_ckeditor_settings($editor, $config, $theme) {
     $predefined_formats = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'address', 'div');
     foreach (array_diff($block_formats, $predefined_formats) as $tag) {
       $tag = trim($tag);
-      $settings["format_$tag"] = array('element' => $tag);
+      $settings["format_$tag"] = array('element' => $tag, 'name' => strtoupper(substr($tag, 0, 1)) . substr($tag, 1));
     }
     $settings['format_tags'] = implode(';', $block_formats);
   }
 
   // Advanced Content Filter
-  // http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
+  // @see http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
   if (!isset($config['acf_mode']) || WYSIWYG_CKEDITOR_ACF_DISABLED == $config['acf_mode']) {
     $settings['allowedContent'] = TRUE;
   }
@@ -401,7 +406,7 @@ function wysiwyg_ckeditor_settings($editor, $config, $theme) {
   // Parse and define the styles set for the Styles plugin (3.2.1+).
   // @todo This should be a plugin setting, but Wysiwyg does not support
   //   plugin-specific settings yet.
-  if (!empty($config['buttons']['default']['Styles']) && version_compare($editor['installed version'], '3.2.1', '>=')) {
+  if (!empty($config['buttons']['default']['Styles']) && version_compare($editor['installed version'], '3.2.1', '>=') && !empty($config['stylesSet'])) {
     if ($styles = wysiwyg_ckeditor_settings_parse_styles($config['stylesSet'])) {
       $settings['stylesSet'] = $styles;
     }
@@ -578,9 +583,10 @@ function wysiwyg_ckeditor_proxy_plugin_settings($editor, $profile, $plugins) {
       'title' => $plugin['title'],
       'icon' => base_path() . $plugin['icon path'] . '/' . $plugin['icon file'],
       'iconTitle' => $plugin['icon title'],
-      // @todo These should only be set if the plugin defined them.
-      'css' => base_path() . $plugin['css path'] . '/' . $plugin['css file'],
     );
+    if (!empty($plugin['css path']) && !empty($plugin['css file'])) {
+      $settings[$name]['css'] = base_path() . $plugin['css path'] . '/' . $plugin['css file'];
+    }
   }
   return $settings;
 }
@@ -732,8 +738,9 @@ function _wysiwyg_ckeditor_group($button) {
 }
 
 /**
- * Determine if string is supposed to be ACF obj format
- * http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules
+ * Determine if string is supposed to be ACF obj format.
+ *
+ * @see http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules
  */
 function _wysiwyg_ckeditor_settings_acf_is_obj($string) {
   if (strstr($string, ':') === FALSE) {

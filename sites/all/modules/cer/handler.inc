@@ -169,8 +169,16 @@ class CerHandler extends CerHandlerBase implements CerHandlerInterface {
   /**
    * Implements CerHandlerInterface::insert().
    */
-  public function insert() {
-    foreach ($this->getReferencedEntities() as $referenced_entity) {
+  public function insert($ids = NULL) {
+
+    if (empty($ids)) {
+      $entities = $this->getReferencedEntities();
+    }
+    else {
+      $entities = entity_load($this->remote['entity_type'], $ids);
+    }
+
+    foreach ($entities as $referenced_entity) {
       $this->reference($referenced_entity);
       _cer_update($this->remote['entity_type'], $referenced_entity);
     }
@@ -191,7 +199,11 @@ class CerHandler extends CerHandlerBase implements CerHandlerInterface {
       }
     }
 
-    $this->insert();
+    $added = array_diff($this->getLocalReferenceIDs(), $this->getReferenceIDs($original, $this->local));
+
+    if (!empty($added)) {
+      $this->insert($added);
+    }
   }
 
   /**
@@ -264,7 +276,15 @@ class CerHandler extends CerHandlerBase implements CerHandlerInterface {
       }
     }
     else {
-      throw new CerException(t('Cannot create invalid reference to remote entity.'));
+      $variables = array(
+        '!local_field' => $this->local['field_name'],
+        '!local_type' => $this->local['entity_type'],
+        '!local_id' => $this->id,
+        '!remote_field' => $this->remote['field_name'],
+        '!remote_type' => $this->remote['entity_type'],
+        '!remote_id' => $this->getRemoteEntityID($entity),
+      );
+      watchdog('cer', 'Failed to reference !remote_field on !remote_type !remote_id from !local_field on !local_type !local_id.', $variables, WATCHDOG_ERROR);
     }
   }
 

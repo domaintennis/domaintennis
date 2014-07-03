@@ -1,7 +1,8 @@
 CHANGELOG for Plupload integration for Drupal 7
 
-Plupload integration 7.x-1.x-dev
+Plupload integration 7.x-1.6
 =================================
+- #2171575 by slashrsm | kreatIL: Plupload library not found (version 1.5.8).
 - #2098555 by slashrsm: Suggest using .zip instead of .tar.gz.
 
 Plupload integration 7.x-1.5
