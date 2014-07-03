@@ -1,16 +1,21 @@
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
-sites/cruise/themes/cruise/.sass-cache
+
 
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
 
+# Ignore MAC OS X Files
 .DS_Store
 ._.DS_Store
 
-
+# Ignore awstats crap
 awstatsicons
 icon
 awstats-icon
+awstatsicon
 stats
+
+# Ignore sass cache files
+sites/*/themes/*/.sass-cache
