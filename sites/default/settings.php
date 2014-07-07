@@ -246,9 +246,9 @@ $databases = array (
     'default' => 
     array (
       'driver' => 'mysql',
-      'database' => 'local-domaintennis',
-      'username' => 'root',
-      'password' => 'root',
+      'database' => 'dev_domaintennis',
+      'username' => 'dev-domaintennis',
+      'password' => 't3nnisplayer',
       'host' => 'localhost',
       'port' => '',
       'prefix' => '',
@@ -259,4 +259,3 @@ $databases = array (
 $drupal_hash_salt = 'to4K4AnkpjcglyKmlNjIgr_lLvd0FAiTNFdP-oTEJS0';
 
 
-require (__DIR__ . '/environments.inc');
