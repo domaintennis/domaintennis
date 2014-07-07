@@ -259,4 +259,3 @@ $databases = array (
 $drupal_hash_salt = 'to4K4AnkpjcglyKmlNjIgr_lLvd0FAiTNFdP-oTEJS0';
 
 
-require (__DIR__ . '/environments.inc');
